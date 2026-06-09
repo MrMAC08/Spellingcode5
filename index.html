@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Words Weekly Station</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --success: #10b981;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .teacher-panel {
+            background: #f1f5f9;
+            border: 2px dashed #94a3b8;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .teacher-panel h2 { margin-top: 0; color: #334155; }
+
+        .word-config-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr 3fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .word-config-row input {
+            padding: 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .student-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+            text-align: center;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .progress-bar { font-weight: bold; color: var(--primary); margin-bottom: 20px; font-size: 1.1rem; }
+        .target-word { font-size: 4.5rem; font-weight: 800; letter-spacing: 1px; margin: 10px 0; color: var(--text); transition: opacity 0.5s ease; }
+        .hidden-word { opacity: 0 !important; }
+        
+        .rule-box {
+            background: #f8fafc;
+            border-left: 5px solid var(--primary);
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            font-size: 1.2rem;
+            margin: 20px 0;
+            max-width: 90%;
+            text-align: left;
+        }
+
+        .lock-container {
+            background: #fef2f2;
+            border: 2px dashed var(--danger);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .teacher-password-input, .student-input {
+            font-size: 1.5rem;
+            padding: 12px;
+            text-align: center;
+            border: 3px solid #cbd5e1;
+            border-radius: 8px;
+            outline: none;
+        }
+        .teacher-password-input { width: 240px; font-size: 1.2rem; padding: 8px; text-transform: lowercase;}
+        .student-input { width: 80%; max-width: 350px; text-transform: lowercase; }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover { background-color: #4f46e5; }
+        .sentence-prompt { font-size: 1.6rem; margin-bottom: 25px; line-height: 1.6; }
+        .feedback { font-size: 1.2rem; font-weight: bold; margin-top: 15px; }
+        .feedback.success { color: var(--success); }
+        .feedback.error { color: var(--danger); }
+        .toggle-panel-btn { background: #64748b; margin-bottom: 10px; padding: 8px 16px; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <button class="toggle-panel-btn" onclick="toggleTeacherPanel()">Open Advanced Control Panel</button>
+    
+    <div class="teacher-panel" id="teacherPanel">
+        <h2>Advanced Level Control Panel</h2>
+        <p>Set your higher-level words, rules/syllable breakdowns, and context sentences below.</p>
+        
+        <div style="margin-bottom: 15px;">
+            <label style="font-weight:bold;">First Word Master Code: </label>
+            <input type="text" id="teacherCodeSetting" value="sunny" style="padding:5px; font-size:1rem; width:120px;">
+        </div>
+
+        <div id="wordInputsContainer"></div>
+        <button onclick="saveAndReset()" style="background-color: var(--success);">Save and Restart Lesson</button>
+    </div>
+
+    <div class="student-card" id="gameCard">
+        </div>
+</div>
+
+<script>
+    const formViewURL = "https://docs.google.com/forms/d/e/1FAIpQLSddB0NQFaIBv9x-feJucH_YGDwHb8suDI9h1ShPOv1yGzCCXQ/viewform";
+    const nameKey = "entry.421008981";
+    const wordsKey = "entry.1429911539";
+    const incorrectKey = "entry.407995943";
+    const scoreKey = "entry.211442136";
+
+    let curriculum = [
+        { word: "beautiful", rule: "Tricky vowel team 'eau' makes the long /u/ sound. Remember full ends with only one 'l'.", sentence: "The sunset over the ocean looked absolutely ___." },
+        { word: "government", rule: "Don't forget the silent 'n' in the middle of the base word govern!", sentence: "The citizens voted to elect a new ___." },
+        { word: "necessary", rule: "One collar (c) and two sleeves (ss). That is how you remember one C and two S's!", sentence: "It is ___ to pack a warm jacket for the ski trip." },
+        { word: "definite", rule: "Ends with 'ite' making a short /i/ sound. There is no 'a' in definite.", sentence: "We have a ___ plan to meet up at noon." },
+        { word: "separate", rule: "Look closely at the middle: there is 'a rat' in sep-a-rat-e.", sentence: "Please place the garbage into a ___ bin." }
+    ];
+
+    let currentWordIndex = 0;
+    let currentStep = 0; 
+    let masterTeacherCode = "sunny";
+    
+    let studentName = "";
+    let correctWordsList = [];
+    let incorrectWordsList = [];
+    let correctCount = 0;
+
+    function buildTeacherPanel() {
+        const container = document.getElementById('wordInputsContainer');
+        container.innerHTML = '';
+        curriculum.forEach((item, index) => {
+            const row = document.createElement('div');
+            row.className = 'word-config-row';
+            row.innerHTML = `
+                <input type="text" id="w-${index}" value="${item.word}" placeholder="Word">
+                <input type="text" id="r-${index}" value="${item.rule}" placeholder="Syllable breakdown / Spelling tip / Blank if none">
+                <input type="text" id="s-${index}" value="${item.sentence}" placeholder="Context Sentence">
+            `;
+            container.appendChild(row);
+        });
+    }
+
+    function toggleTeacherPanel() {
+        const panel = document.getElementById('teacherPanel');
+        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function saveAndReset() {
+        masterTeacherCode = document.getElementById('teacherCodeSetting').value.trim().toLowerCase();
+
+        for(let i=0; i<5; i++) {
+            curriculum[i].word = document.getElementById(`w-${i}`).value.trim().toLowerCase();
+            curriculum[i].rule = document.getElementById(`r-${i}`).value.trim();
+            curriculum[i].sentence = document.getElementById(`s-${i}`).value.trim();
+        }
+        restartLesson();
+        toggleTeacherPanel();
+    }
+
+    function restartLesson() {
+        currentWordIndex = 0;
+        currentStep = 0; 
+        correctWordsList = [];
+        incorrectWordsList = [];
+        correctCount = 0;
+        renderStep();
+    }
+
+    function getRequiredPassword() {
+        if (currentWordIndex === 0) return masterTeacherCode;
+        return curriculum[currentWordIndex - 1].word; 
+    }
+
+    function renderStep() {
+        const card = document.getElementById('gameCard');
+        const currentData = curriculum[currentWordIndex];
+        let progressHTML = `<div class="progress-bar">Advanced Word ${currentWordIndex + 1} of 5</div>`;
+
+        if (currentStep === 0) {
+            card.innerHTML = `
+                <h2>Advanced Vocabulary Station</h2>
+                <p style="font-size: 1.2rem;">Enter your name to begin:</p>
+                <input type="text" id="nameInput" class="student-input" style="text-transform: none;" placeholder="Your Name...">
+                <br><button onclick="submitName()">Start Lesson</button>
+            `;
+            document.getElementById('nameInput').focus();
+        }
+        else if (currentStep === 1) {
+            let ruleHTML = currentData.rule.trim() !== "" ? `<div class="rule-box"><strong>Spelling Strategy:</strong><br>${currentData.rule}</div>` : `<p style="font-size:1.2rem; color:#64748b;">Study this advanced word carefully!</p>`;
+            card.innerHTML = `
+                ${progressHTML}
+                <div class="target-word" style="font-size:3.8rem;">${currentData.word}</div>
+                ${ruleHTML}
+                <button onclick="nextStep()">I Studied It</button>
+            `;
+        } 
+        else if (currentStep === 2) {
+            let passwordHint = currentWordIndex === 0 ? "Teacher entry code required." : `Type the previous word you just spelled!`;
+            
+            let checklistItems = "";
+            if (currentData.rule.trim() !== "") {
+                checklistItems += `<li>Write the spelling rule or tip in your notebook:<br><em style="color:#64748b; font-size:1.1rem;">"${currentData.rule}"</em></li>`;
+            }
+            checklistItems += `<li>Write the vocabulary word <strong style="color:var(--primary);">${currentData.word}</strong> on your paper <strong>5 times</strong>.</li>`;
+
+            card.innerHTML = `
+                ${progressHTML}
+                <div style="font-size: 1.4rem; font-weight: bold; color: var(--danger);">Notebook Practice Task</div>
+                
+                <ol style="text-align: left; margin: 20px auto; max-width: 85%; font-size: 1.2rem; line-height: 1.6;">
+                    ${checklistItems}
+                </ol>
+                
+                <div class="lock-container" style="margin: 0 auto;">
+                    <label style="font-weight: bold; display:block; margin-bottom:5px;">Review Password Lock</label>
+                    <span style="font-size:0.9rem; color:#64748b; display:block; margin-bottom:10px;">${passwordHint}</span>
+                    <input type="text" id="passInput" class="teacher-password-input" placeholder="Enter password..." autocomplete="off">
+                    <br><button onclick="verifyTeacherCode()" style="margin-top:10px; padding: 8px 20px; font-size: 0.95rem; background-color: var(--danger);">Unlock Card</button>
+                    <div id="lockFeedback" class="feedback"></div>
+                </div>
+            `;
+            
+            const pInput = document.getElementById('passInput');
+            pInput.focus();
+            
+            pInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    nextStep();
+                }
+            });
+        } 
+        else if (currentStep === 3) {
+            card.innerHTML = `
+                ${progressHTML}
+                <p style="font-size:1.3rem;">Study the word before it fades...</p>
+                <div class="target-word" id="fadingWord" style="font-size:3.8rem;">${currentData.word}</div>
+            `;
+            setTimeout(() => {
+                const el = document.getElementById('fadingWord');
+                if(el) el.classList.add('hidden-word');
+                setTimeout(() => { nextStep(); }, 800);
+            }, 1800); 
+        } 
+        else if (currentStep === 4) {
+            card.innerHTML = `
+                ${progressHTML}
+                <div class="sentence-prompt">${currentData.sentence}</div>
+                <div class="input-area">
+                    <input type="text" id="testInput" class="student-input" placeholder="Spell the word here" autocomplete="off">
+                </div>
+                <button onclick="checkTestAnswer()">Verify Spelling</button>
+                <div id="testFeedback" class="feedback"></div>
+            `;
+            document.getElementById('testInput').focus();
+        }
+    }
+
+    function submitName() {
+        const val = document.getElementById('nameInput').value.trim();
+        if(val) { studentName = val; currentStep = 1; renderStep(); }
+    }
+
+    function nextStep() { currentStep++; renderStep(); }
+
+    function verifyTeacherCode() {
+        const input = document.getElementById('passInput').value.trim().toLowerCase();
+        if(input === getRequiredPassword()) { nextStep(); } 
+        else {
+            const feedback = document.getElementById('lockFeedback');
+            feedback.className = "feedback error";
+            feedback.innerHTML = "Spelling does not match previous word. Try again!";
+            document.getElementById('passInput').value = '';
+        }
+    }
+
+    function checkTestAnswer() {
+        const entered = document.getElementById('testInput').value.trim().toLowerCase();
+        const correct = curriculum[currentWordIndex].word;
+        
+        let isCorrect = (entered === correct);
+        if(isCorrect) {
+            correctCount++;
+            correctWordsList.push(correct);
+        } else {
+            let attempt = entered === "" ? "[Left Blank]" : entered;
+            incorrectWordsList.push(`${attempt} (Target Word: ${correct})`);
+        }
+        
+        const feedback = document.getElementById('testFeedback');
+        if (isCorrect) {
+            feedback.className = "feedback success";
+            feedback.innerHTML = "Correct!";
+        } else {
+            feedback.className = "feedback error";
+            feedback.innerHTML = `Incorrect. The correct spelling is "${correct}".`;
+        }
+
+        setTimeout(() => {
+            if (currentWordIndex < curriculum.length - 1) {
+                currentWordIndex++;
+                currentStep = 1;
+                renderStep();
+            } else {
+                showEndScreen();
+            }
+        }, 2500);
+    }
+
+    function showEndScreen() {
+        const card = document.getElementById('gameCard');
+        let finalScore = `${correctCount} out of 5`;
+
+        card.innerHTML = `
+            <h1 style="color: var(--success); font-size: 3rem;">Lesson Complete</h1>
+            <p style="font-size:1.3rem;">Great focus, <strong>${studentName}</strong>!</p>
+            <p style="font-size:1.2rem; background:#f1f5f9; padding:10px; border-radius:8px;">Your Score: <strong>${finalScore}</strong></p>
+            
+            <div id="submissionZone">
+                <p style="color:#64748b;">Click below to open your Google Form entry and click Submit:</p>
+                <button onclick="openGoogleFormLink()" style="background-color: var(--success); font-size:1.3rem; padding:15px 35px;">Open Google Form</button>
+            </div>
+        `;
+    }
+
+    function openGoogleFormLink() {
+        let correctReport = correctWordsList.join(', ') || "None";
+        let incorrectReport = incorrectWordsList.join(', ') || "None";
+        let finalScore = `${correctCount} out of 5`;
+
+        let filledURL = `${formViewURL}?usp=pp_url&${nameKey}=${encodeURIComponent(studentName)}&${wordsKey}=${encodeURIComponent(correctReport)}&${incorrectKey}=${encodeURIComponent(incorrectReport)}&${scoreKey}=${encodeURIComponent(finalScore)}`;
+        
+        window.open(filledURL, '_blank');
+
+        document.getElementById('submissionZone').innerHTML = `<p style="color: var(--success); font-weight:bold; font-size:1.2rem;">Form opened in a new window! Make sure to click Submit on that page.</p>`;
+        setTimeout(() => { showPostSubmitOptions(); }, 1500);
+    }
+
+    function showPostSubmitOptions() {
+        const card = document.getElementById('gameCard');
+        card.innerHTML += `
+            <hr style="width:80%; margin:20px 0; border:1px solid #e2e8f0;">
+            <button onclick="restartLesson()" style="background-color:#64748b; margin-right:10px;">Retry Lesson</button>
+            <button onclick="toggleTeacherPanel()" style="background-color:var(--primary);">Change Words</button>
+        `;
+    }
+
+    buildTeacherPanel();
+    document.getElementById('teacherPanel').style.display = 'none';
+    renderStep();
+</script>
+
+</body>
+</html>
