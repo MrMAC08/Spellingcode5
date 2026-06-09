@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vocabulary Station - Choose Your Rule</title>
+    <title>Vocabulary Station - Year 5/6 Rules</title>
     <style>
         :root {
             --primary: #6366f1;
@@ -170,7 +170,7 @@
         </div>
 
         <div style="margin-bottom: 15px;">
-            <label style="font-weight:bold; display:block; margin-bottom:5px;">Bulk Paste Master Word List (Auto-Groups by Spelling Rule Name)</label>
+            <label style="font-weight:bold; display:block; margin-bottom:5px;">Bulk Paste Master Word List (Overrides Permanent Rules Below)</label>
             <textarea id="bulkPasteInput" class="bulk-textarea" placeholder="Paste your entire comma-separated list block here..."></textarea>
             <button onclick="processBulkPaste()" style="margin-top:0; padding:10px 20px; font-size:1rem; background-color:var(--success); width:100%;">Process and Apply Master List</button>
         </div>
@@ -187,11 +187,73 @@
     const incorrectKey = "entry.407995943";
     const scoreKey = "entry.211442136";
 
-    // Fallback default structure grouped by explicit rule names
+    // PERMANENTLY SAVED SIMPLIFIED YEAR 5/6 PHONICS RULES DATA
     let masterRulesMap = {
-        "Short Vowel CCVC Words": [
-            { word: "spin", rule: "Short Vowel CCVC Words", sentence: "Watch the top __ around fast on the table." },
-            { word: "step", rule: "Short Vowel CCVC Words", sentence: "Be careful not to trip on the top __." }
+        "eigh as /a/": [
+            { word: "eight", rule: "eigh as /a/", sentence: "A spider has __ legs walking on its web." },
+            { word: "eighty", rule: "eigh as /a/", sentence: "My grandmother is celebrating her __th birthday today." },
+            { word: "eighteen", rule: "eigh as /a/", sentence: "You must be __ years old to vote in elections." },
+            { word: "sleigh", rule: "eigh as /a/", sentence: "Santa rides in a wooden __ pulled by reindeer." },
+            { word: "neigh", rule: "eigh as /a/", sentence: "We heard the horse __ loudly across the field." },
+            { word: "neighbour", rule: "eigh as /a/", sentence: "The __ next door lent us a ladder to fix the fence." },
+            { word: "weigh", rule: "eigh as /a/", sentence: "Use the digital scales to __ the ingredients for the cake." },
+            { word: "weight", rule: "eigh as /a/", sentence: "The heavy box was difficult to lift because of its __." },
+            { word: "freight", rule: "eigh as /a/", sentence: "The long __ train carried cargo containers across the country." },
+            { word: "heavyweight", rule: "eigh as /a/", sentence: "The champion boxer competed in the __ division match." },
+            { word: "lightweight", rule: "eigh as /a/", sentence: "This summer jacket is made of a very __ fabric." },
+            { word: "neighbourhood", rule: "eigh as /a/", sentence: "We rode our bikes all around our quiet __." }
+        ],
+        "ie as /e/": [
+            { word: "chief", rule: "ie as /e/", sentence: "The fire __ gave directions to the emergency team." },
+            { word: "thief", rule: "ie as /e/", sentence: "The sneaky __ stole the diamond ring from the display." },
+            { word: "field", rule: "ie as /e/", sentence: "The children ran across the green grass __ during recess." },
+            { word: "piece", rule: "ie as /e/", sentence: "May I please have a small __ of chocolate cake?" },
+            { word: "movie", rule: "ie as /e/", sentence: "We ate popcorn while watching a funny __ at the theater." },
+            { word: "brief", rule: "ie as /e/", sentence: "The principal made a __ announcement before the bell rang." },
+            { word: "briefly", rule: "ie as /e/", sentence: "Please explain your answer __ in one or two words." },
+            { word: "grief", rule: "ie as /e/", sentence: "They felt great __ when their old pet dog passed away." },
+            { word: "belief", rule: "ie as /e/", sentence: "It is my personal __ that hard work brings success." },
+            { word: "believe", rule: "ie as /e/", sentence: "Do you __ that there is life on other planets?" },
+            { word: "shriek", rule: "ie as /e/", sentence: "A loud __ echoed when she saw the big spider." },
+            { word: "retrieve", rule: "ie as /e/", sentence: "I threw the tennis ball to __ it back from the yard." },
+            { word: "diesel", rule: "ie as /e/", sentence: "The large delivery truck uses __ fuel instead of regular petrol." },
+            { word: "shield", rule: "ie as /e/", sentence: "The knight used a metal __ to protect himself." },
+            { word: "priest", rule: "ie as /e/", sentence: "The local __ led the ceremony at the historic church." },
+            { word: "wield", rule: "ie as /e/", sentence: "The warrior learned how to __ a heavy iron sword." }
+        ],
+        "ough as /o/": [
+            { word: "though", rule: "ough as /o/", sentence: "We went for a long walk even __ it was raining." },
+            { word: "although", rule: "ough as /o/", sentence: "__ she was tired she finished reading her entire book." },
+            { word: "dough", rule: "ough as /o/", sentence: "Roll the pizza __ out flat on the kitchen bench." },
+            { word: "doughnut", rule: "ough as /o/", sentence: "I picked a sweet strawberry __ with sprinkles on top." }
+        ],
+        "ough as /or/": [
+            { word: "bought", rule: "ough as /or/", sentence: "My parents __ a brand new computer for our schoolwork." },
+            { word: "fought", rule: "ough as /or/", sentence: "The brave soldiers __ to protect their country." },
+            { word: "thought", rule: "ough as /or/", sentence: "I __ about the difficult math puzzle for a long time." },
+            { word: "sought", rule: "ough as /or/", sentence: "The travelers __ shelter inside a cave during the storm." },
+            { word: "nought", rule: "ough as /or/", sentence: "The score in the soccer game was exactly zero to __." },
+            { word: "brought", rule: "ough as /or/", sentence: "He __ his favorite board game to share with the class." }
+        ],
+        "ough as /ou/": [
+            { word: "plough", rule: "ough as /ou/", sentence: "The farmer used a tractor to __ the muddy dirt field." },
+            { word: "ploughs", rule: "ough as /ou/", sentence: "He __ the soil every spring before planting new seeds." },
+            { word: "bough", rule: "ough as /ou/", sentence: "A thick tree __ snapped and fell during the strong winds." },
+            { word: "drought", rule: "ough as /ou/", sentence: "The grass turned yellow during the long hot summer __." }
+        ],
+        "ue as /u/": [
+            { word: "cue", rule: "ue as /u/", sentence: "The actor waited for his __ to step onto the stage." },
+            { word: "due", rule: "ue as /u/", sentence: "Our science project report is __ next Friday morning." },
+            { word: "avenue", rule: "ue as /u/", sentence: "Tall trees lined both sides of the busy __." },
+            { word: "continue", rule: "ue as /u/", sentence: "Please __ reading your book until the timer finishes." },
+            { word: "duel", rule: "ue as /u/", sentence: "The two swordsmen agreed to a __ at sunrise." },
+            { word: "fuel", rule: "ue as /u/", sentence: "We stopped at the petrol station to put __ in the car." },
+            { word: "hue", rule: "ue as /u/", sentence: "The sunset filled the sky with a bright orange __." },
+            { word: "argue", rule: "ue as /u/", sentence: "Try not to __ with your friends over a simple game." },
+            { word: "value", rule: "ue as /u/", sentence: "Regular practice has great __ if you want to improve." },
+            { word: "rescue", rule: "ue as /u/", sentence: "The firefighters arrived to __ the cat from the high tree." },
+            { word: "statue", rule: "ue as /u/", sentence: "A large bronze __ of the leader stands in the city park." },
+            { word: "barbecue", rule: "ue as /u/", sentence: "We cooked sausages on the outdoor __ for dinner." }
         ]
     };
 
@@ -265,7 +327,6 @@
             return;
         }
 
-        // Rule Selection Menu instead of Lesson Selection
         if (currentStep === 0.5) {
             let menuButtonsHTML = "";
             const ruleNames = Object.keys(masterRulesMap);
@@ -295,7 +356,7 @@
             card.innerHTML = `
                 ${progressHTML}
                 <div class="target-word">${currentData.word}</div>
-                <div class="rule-box"><strong>Current Rule Rule:</strong><br>${currentData.rule}</div>
+                <div class="rule-box"><strong>Strategy Pattern:</strong> ${currentData.rule}</div>
                 <button onclick="nextStep()">I Studied It</button>
             `;
         } 
@@ -306,7 +367,7 @@
                 ${progressHTML}
                 <div style="font-size: 1.4rem; font-weight: bold; color: var(--danger);">Notebook Practice Task</div>
                 <ol style="text-align: left; margin: 20px auto; max-width: 85%; font-size: 1.2rem; line-height: 1.6;">
-                    <li>Write the focus strategy rule in your book:<br><em style="color:#64748b; font-size:1.1rem;">"${currentData.rule}"</em></li>
+                    <li>Write the focus rule in your book: <strong style="color:var(--primary);">${currentData.rule}</strong></li>
                     <li>Write the word <strong style="color:var(--primary);">${currentData.word}</strong> on your paper <strong>5 times</strong>.</li>
                 </ol>
                 <div class="lock-container" style="margin: 0 auto;">
