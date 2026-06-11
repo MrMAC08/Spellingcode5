@@ -3,543 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code 5/6 Vocabulary Station (Year Five/Six)</title>
+    <title>Code 4 Vocabulary Station (Year Five/Six)</title>
     <style>
-        :root { --primary: #3b82f6; --success: #10b981; --danger: #ef4444; --bg: #f8fafc; --card-bg: #ffffff; --text: #0f172a; }
+        :root { --primary: #8b5cf6; --success: #10b981; --danger: #ef4444; --bg: #f5f3ff; --card-bg: #ffffff; --text: #1e1b4b; }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         .container { width: 100%; max-width: 800px; }
-        .student-card { background: var(--card-bg); border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); padding: 40px; text-align: center; min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; width: 100%; max-width: 750px; margin-top: 20px; max-height: 60vh; overflow-y: auto; padding: 10px; }
-        .menu-btn { background-color: #f8fafc; color: var(--text); border: 2px solid #e2e8f0; padding: 15px; font-size: 1rem; border-radius: 10px; cursor: pointer; font-weight: bold; text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
+        .teacher-panel { background: #f3e8ff; border: 2px dashed #c084fc; border-radius: 12px; padding: 20px; margin-bottom: 30px; }
+        .teacher-panel h2 { margin-top: 0; color: #6b21a8; }
+        .bulk-textarea { width: 100%; height: 180px; padding: 10px; border: 1px solid #d8b4fe; border-radius: 6px; font-family: monospace; font-size: 13px; box-sizing: border-box; margin-bottom: 15px; resize: vertical; }
+        .student-card { background: var(--card-bg); border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.1); padding: 40px; text-align: center; min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; width: 100%; max-width: 650px; margin-top: 20px; }
+        .menu-btn { background-color: #faf5ff; color: var(--text); border: 2px solid #e9d5ff; padding: 18px; font-size: 1.05rem; border-radius: 10px; cursor: pointer; font-weight: bold; text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
         .menu-btn:hover { background-color: var(--primary); color: white; border-color: var(--primary); }
         .progress-bar { font-weight: bold; color: var(--primary); margin-bottom: 20px; font-size: 1.1rem; }
-        .target-word { font-size: 4.5rem; font-weight: 800; letter-spacing: 1px; margin: 10px 0; transition: opacity 0.5s ease; color: var(--text); }
+        .target-word { font-size: 4.5rem; font-weight: 800; letter-spacing: 1px; margin: 10px 0; transition: opacity 0.5s ease; }
         .hidden-word { opacity: 0 !important; }
-        .rule-box { background: #f1f5f9; border-left: 5px solid var(--primary); padding: 15px; border-radius: 0 8px 8px 0; font-size: 1.1rem; margin: 20px 0; max-width: 90%; text-align: left; line-height: 1.5; }
+        .rule-box { background: #faf5ff; border-left: 5px solid var(--primary); padding: 20px; border-radius: 0 8px 8px 0; font-size: 1.15rem; margin: 20px 0; max-width: 90%; text-align: left; line-height: 1.6; }
         .rule-box strong { color: var(--primary); }
-        .student-input { font-size: 1.5rem; padding: 12px; text-align: center; border: 3px solid #cbd5e1; border-radius: 8px; outline: none; width: 80%; max-width: 350px; text-transform: lowercase; }
+        .rule-box ul { margin: 8px 0; padding-left: 20px; }
+        .lock-container { background: #fef2f2; border: 2px dashed var(--danger); border-radius: 8px; padding: 15px; margin: 0 auto; width: 90%; max-width: 400px; }
+        .teacher-password-input, .student-input { font-size: 1.5rem; padding: 12px; text-align: center; border: 3px solid #ddd6fe; border-radius: 8px; outline: none; }
+        .teacher-password-input { width: 240px; font-size: 1.2rem; padding: 8px; text-transform: lowercase;}
+        .student-input { width: 80%; max-width: 350px; text-transform: lowercase; }
         button { background-color: var(--primary); color: white; border: none; padding: 12px 28px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 20px; }
-        button:hover { background-color: #2563eb; }
+        button:hover { background-color: #6d28d9; }
+        button:disabled { background-color: #cbd5e1; cursor: not-allowed; }
         .sentence-prompt { font-size: 1.6rem; margin-bottom: 25px; line-height: 1.6; }
         .sentence-prompt em { color: var(--primary); font-weight: bold; font-style: normal; text-decoration: underline; }
         .feedback { font-size: 1.2rem; font-weight: bold; margin-top: 15px; }
         .feedback.success { color: var(--success); }
         .feedback.error { color: var(--danger); }
-        ol { text-align: left; margin: 15px auto; max-width: 85%; font-size: 1.1rem; line-height: 1.5; }
+        .toggle-panel-btn { background: #7c3aed; margin-bottom: 10px; padding: 8px 16px; font-size: 0.9rem; color: white; border: none; border-radius: 6px; cursor: pointer; }
     </style>
 </head>
 <body>
 <div class="container">
+    <button class="toggle-panel-btn" onclick="secureTogglePanel()">Open Control Panel</button>
+    <div class="teacher-panel" id="teacherPanel">
+        <h2>Code 4 Setup Panel (Year 5/6 Version)</h2>
+        <div style="margin-bottom: 15px;">
+            <label style="font-weight:bold;">First Word Unlock Passcode: </label>
+            <input type="text" id="teacherCodeSetting" value="tiger" style="padding:5px; font-size:1rem; width:120px;">
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label style="font-weight:bold; display:block; margin-bottom:5px;">Paste Code 4 Word List Below:</label>
+            <div style="font-size:0.85rem; color:#64748b; margin-bottom:5px;">Format: Word, Rule_Key, Sentence with __ blank</div>
+            <textarea id="bulkPasteInput" class="bulk-textarea" placeholder="chief, ie_long_e, The fire __ directed the crew safely."></textarea>
+            <button onclick="processBulkPaste()" style="margin-top:0; padding:10px 20px; font-size:1rem; background-color:var(--success); width:100%;">Apply List to Code 4</button>
+        </div>
+    </div>
     <div class="student-card" id="gameCard"></div>
 </div>
 
 <script>
-    // Embedded Spelling Rules Text tailored for student copying
-    const RULE_TEXTS = {
-        "eigh": "<strong>Rule to copy:</strong> Vowel team 'eigh' makes a long /a/ sound (like in 'eight').",
-        "ie": "<strong>Rule to copy:</strong> Vowel team 'ie' makes a long /e/ sound. Remember: 'i' before 'e' except after 'c'.",
-        "ough_o": "<strong>Rule to copy:</strong> Vowel team 'ough' can make a long /o/ sound (like in 'though').",
-        "ough_or": "<strong>Rule to copy:</strong> Vowel team 'ough' can make an /or/ sound (like in 'bought').",
-        "ough_ou": "<strong>Rule to copy:</strong> Vowel team 'ough' can make an /ou/ sound (like in 'plough').",
-        "ue": "<strong>Rule to copy:</strong> Vowel team 'ue' makes a long /u/ sound at the end of a word or syllable.",
-        "soft_c": "<strong>Rule to copy:</strong> When 'c' is followed by 'e', 'i', or 'y', it makes a soft /s/ sound.",
-        "soft_g": "<strong>Rule to copy:</strong> When 'g' is followed by 'e', 'i', or 'y', it makes a soft /j/ sound.",
-        "homophones": "<strong>Rule to copy:</strong> Homophones sound identical but have different spellings and definitions.",
-        "air_air": "<strong>Rule to copy:</strong> The sound /air/ can be spelled using the letters 'air'.",
-        "air_are": "<strong>Rule to copy:</strong> The sound /air/ can be spelled using the letters 'are'.",
-        "air_ear": "<strong>Rule to copy:</strong> The sound /air/ can be spelled using the letters 'ear'.",
-        "y_keep": "<strong>Rule to copy:</strong> If a word ends in Vowel + Y, keep the 'y' when adding a suffix.",
-        "y_change": "<strong>Rule to copy:</strong> If a word ends in Consonant + Y, change 'y' to 'i' before adding a suffix.",
-        "suffixes_tion": "<strong>Rule to copy:</strong> Suffix '-tion' means the act or state of something.",
-        "suffixes_sion": "<strong>Rule to copy:</strong> Suffix '-sion' also means the act or state of something.",
-        "suffixes_cian": "<strong>Rule to copy:</strong> Suffix '-cian' means a person with a special skill or job.",
-        "unusual_wr_kn": "<strong>Rule to copy:</strong> In the blends 'wr' and 'kn', the first letter is silent.",
-        "unusual_sc_mb": "<strong>Rule to copy:</strong> In 'sc' the 'c' is silent, and in 'mb' at the end, 'b' is silent.",
-        "schwa_er": "<strong>Rule to copy:</strong> An unstressed vowel sound is called a Schwa. It often sounds like 'uh'.",
-        "schwa_words": "<strong>Rule to copy:</strong> A lazy Schwa sound can be spelled with any vowel in an unstressed syllable.",
-        "plural": "<strong>Rule to copy:</strong> If a base word ends in 'f' or 'fe', change the 'f' to 'v' and add 's' or 'es'."
-    };
-
-    // Integrated and segmented Code 5/6 Lists (Max 7 words per sub-list)
-    const masterRulesMap = {
-        "List 46a: Vowel Team 'eigh' (Long /a/) - Part 1": [
-            { word: "eight", rule: "eigh", sentence: "There are ___ slices of pizza left in the box." },
-            { word: "eighty", rule: "eigh", sentence: "My grandfather celebrated his ___th birthday yesterday." },
-            { word: "eighteen", rule: "eigh", sentence: "You are allowed to vote when you turn ___ years old." },
-            { word: "sleigh", rule: "eigh", sentence: "The horse pulled the wooden ___ through the deep snow." },
-            { word: "neigh", rule: "eigh", sentence: "We heard the loud ___ of the horse from across the field." },
-            { word: "neighbour", rule: "eigh", sentence: "Our next-door ___ lent us some sugar for baking." },
-            { word: "neighbourhood", rule: "eigh", sentence: "It is safe to ride your bicycle around our ___." }
-        ],
-        "List 46a: Vowel Team 'eigh' (Long /a/) - Part 2": [
-            { word: "weigh", rule: "eigh", sentence: "The doctor will ___ you to see how much you have grown." },
-            { word: "weight", rule: "eigh", sentence: "Lifting that heavy box requires a lot of muscular ___." },
-            { word: "freight", rule: "eigh", sentence: "The long ___ train carried cargo across the country." },
-            { word: "heavyweight", rule: "eigh", sentence: "The boxer competed in the supreme ___ division." },
-            { word: "lightweight", rule: "eigh", sentence: "This running jacket is very ___ and easy to pack." }
-        ],
-        "List 46b: Vowel Team 'ie' (Long /e/) - Part 1": [
-            { word: "chief", rule: "ie", sentence: "The fire ___ gave clear instructions to the station team." },
-            { word: "thief", rule: "ie", sentence: "The sneaky ___ stole the gold necklace from the shop." },
-            { word: "field", rule: "ie", sentence: "We played a game of football on the grassy ___." },
-            { word: "piece", rule: "ie", sentence: "Would you like a ___ of chocolate cake after dinner?" },
-            { word: "movie", rule: "ie", sentence: "We bought popcorn to watch a new ___ at the cinema." },
-            { word: "brief", rule: "ie", sentence: "The principal gave a ___ speech during morning assembly." },
-            { word: "briefly", rule: "ie", sentence: "Please explain ___ what happened on the playground." }
-        ],
-        "List 46b: Vowel Team 'ie' (Long /e/) - Part 2": [
-            { word: "grief", rule: "ie", sentence: "The family felt deep ___ when their old dog passed away." },
-            { word: "belief", rule: "ie", sentence: "It is my personal ___ that practice makes perfect." },
-            { word: "believe", rule: "ie", sentence: "Do you ___ that extraordinary aliens exist in space?" },
-            { word: "shriek", rule: "ie", sentence: "A loud ___ echoed when she saw a spider on her bed." },
-            { word: "retrieve", rule: "ie", sentence: "Throw the stick and the dog will happily ___ it for you." },
-            { word: "diesel", rule: "ie", sentence: "Large transport trucks usually run on ___ fuel instead of petrol." },
-            { word: "shield", rule: "ie", sentence: "The medieval knight used a metal ___ to protect himself." }
-        ],
-        "List 46b: Vowel Team 'ie' (Long /e/) - Part 3": [
-            { word: "priest", rule: "ie", sentence: "The parish ___ delivered a sermon at the church." },
-            { word: "wield", rule: "ie", sentence: "An expert warrior knows how to ___ a sword safely." }
-        ],
-        "List 46c: Vowel Team 'ough' (Multi-Sound)": [
-            { word: "though", rule: "ough_o", sentence: "Even ___ it was raining outside, we still went for a walk." },
-            { word: "although", rule: "ough_o", sentence: "___ she was feeling tired, she finished her homework." },
-            { word: "dough", rule: "ough_o", sentence: "We need to let the bread ___ rise before baking it." },
-            { word: "doughnut", rule: "ough_o", sentence: "I chose a delicious glazed ___ with pink sprinkles." },
-            { word: "bought", rule: "ough_or", sentence: "Mum ___ some fresh apples from the local market." },
-            { word: "fought", rule: "ough_or", sentence: "The brave soldiers ___ to protect their homeland." },
-            { word: "thought", rule: "ough_or", sentence: "I suddenly ___ of a brilliant idea for our science project." }
-        ],
-        "List 46c: Vowel Team 'ough' (Multi-Sound) - Part 2": [
-            { word: "sought", rule: "ough_or", sentence: "The lost travelers ___ shelter from the fierce storm." },
-            { word: "nought", rule: "ough_or", sentence: "The score in the football match remained at ___ all." },
-            { word: "brought", rule: "ough_or", sentence: "Look at the lovely shells I ___ back from the beach." },
-            { word: "plough", rule: "ough_ou", sentence: "The farmer will ___ the soil to prepare it for seeds." },
-            { word: "ploughs", rule: "ough_ou", sentence: "The heavy machinery ___ through the muddy crop field." },
-            { word: "bough", rule: "ough_ou", sentence: "A large ___ of the oak tree snapped during the gale." },
-            { word: "drought", rule: "ough_ou", sentence: "The plants withered because of the long summer ___." }
-        ],
-        "List 46d: Vowel Team 'ue' (Long /u/) - Part 1": [
-            { word: "cue", rule: "ue", sentence: "The actor waited backstage for his ___ to enter." },
-            { word: "due", rule: "ue", sentence: "Our library books are ___ back by next Friday morning." },
-            { word: "avenue", rule: "ue", sentence: "Beautiful tall trees lined both sides of the wide ___." },
-            { word: "continue", rule: "ue", sentence: "You may ___ reading your book until the bell rings." },
-            { word: "duel", rule: "ue", sentence: "The two characters fought a dramatic sword ___ in the movie." },
-            { word: "fuel", rule: "ue", sentence: "We need to stop at the service station to get some ___." },
-            { word: "hue", rule: "ue", sentence: "The sky showed a beautiful bright ___ of orange at sunset." }
-        ],
-        "List 46d: Vowel Team 'ue' (Long /u/) - Part 2": [
-            { word: "argue", rule: "ue", sentence: "Please try to share nicely and do not ___ over the toy." },
-            { word: "value", rule: "ue", sentence: "Good friendships hold a very high ___ in our lives." },
-            { word: "rescue", rule: "ue", sentence: "Firefighters arrived quickly to ___ the cat from the roof." },
-            { word: "statue", rule: "ue", sentence: "A stone ___ of the historic leader stands in the square." },
-            { word: "barbecue", rule: "ue", sentence: "We cooked sausages on the outdoor ___ during the weekend." }
-        ],
-        "List 47: Soft C (ce, ci, cy) - Part 1": [
-            { word: "cent", rule: "soft_c", sentence: "A single copper ___ was lying on the grocery shop floor." },
-            { word: "cell", rule: "soft_c", sentence: "We looked through a microscope to view a plant ___." },
-            { word: "circus", rule: "soft_c", sentence: "The acrobats performed amazing tricks at the traveling ___." },
-            { word: "cement", rule: "soft_c", sentence: "The builder poured liquid ___ to create a flat footpath." },
-            { word: "rice", rule: "soft_c", sentence: "We ate delicious chicken curry served with white ___." },
-            { word: "nice", rule: "soft_c", sentence: "It was very ___ of you to help carry my bags." },
-            { word: "dice", rule: "soft_c", sentence: "Roll the plastic ___ to see how many spaces you move." }
-        ],
-        "List 47: Soft C (ce, ci, cy) - Part 2": [
-            { word: "lace", rule: "soft_c", sentence: "Tie up your shoe ___ tightly so you do not trip over." },
-            { word: "prince", rule: "soft_c", sentence: "The young ___ will one day inherit the royal crown." },
-            { word: "space", rule: "soft_c", sentence: "Astronauts travel in a rocket to explore outer ___." },
-            { word: "price", rule: "soft_c", sentence: "Check the tag to see the exact ___ of the item." },
-            { word: "city", rule: "soft_c", sentence: " Auckland is a very busy and bustling ___." },
-            { word: "circle", rule: "soft_c", sentence: "Please sit down in a neat ___ on the mat." },
-            { word: "place", rule: "soft_c", sentence: "This quiet library is a wonderful ___ to study." }
-        ],
-        "List 47: Soft C (ce, ci, cy) - Part 3": [
-            { word: "face", rule: "soft_c", sentence: "A happy smile spread across her ___ when she won." },
-            { word: "fence", rule: "soft_c", sentence: "Our wooden boundary ___ keeps our dog safe in the yard." },
-            { word: "pencil", rule: "soft_c", sentence: "Use a lead ___ to sketch your initial drawing outlines." },
-            { word: "council", rule: "soft_c", sentence: "The local ___ looks after our public parks and roads." },
-            { word: "citizen", rule: "soft_c", sentence: "Every good ___ helps to keep their town clean." },
-            { word: "citrus", rule: "soft_c", sentence: "Oranges, lemons, and limes are all types of ___ fruit." },
-            { word: "century", rule: "soft_c", sentence: "One hundred long years make up a full ___." }
-        ],
-        "List 47: Soft C (ce, ci, cy) - Part 4": [
-            { word: "ambulance", rule: "soft_c", sentence: "The emergency ___ drove past with its sirens blaring." },
-            { word: "sentence", rule: "soft_c", sentence: "Remember to start every written ___ with a capital letter." },
-            { word: "groceries", rule: "soft_c", sentence: "We packed all our fresh ___ into reusable bags." },
-            { word: "cicada", rule: "soft_c", sentence: "The loud chirping of a ___ can be heard in summer." },
-            { word: "decided", rule: "soft_c", sentence: "We finally ___ to watch a funny movie together." },
-            { word: "cycle", rule: "soft_c", sentence: "It is fun to ___ along the designated bike pathways." },
-            { word: "cyclone", rule: "soft_c", sentence: "The fierce ___ brought destructive gale winds and flooding rain." }
-        ],
-        "List 47: Soft G (ge, gi, gy) - Part 1": [
-            { word: "gel", rule: "soft_g", sentence: "He put styling ___ in his hair before going out." },
-            { word: "germ", rule: "soft_g", sentence: "Wash your hands with soap to get rid of every single ___." },
-            { word: "gem", rule: "soft_g", sentence: "The diamond is a sparkling and valuable ___ stone." },
-            { word: "giant", rule: "soft_g", sentence: "The large elephant looked absolutely ___ next to the mouse." },
-            { word: "gym", rule: "soft_g", sentence: "We practice basketball indoor layouts inside the school ___." },
-            { word: "gymnastics", rule: "soft_g", sentence: "She practices floor balance beams in her weekly ___ class." },
-            { word: "egypt", rule: "soft_g", sentence: "The ancient pyramids are located in the nation of ___." }
-        ],
-        "List 47: Soft G (ge, gi, gy) - Part 2": [
-            { word: "magic", rule: "soft_g", sentence: "The entertainer pulled a fluffy rabbit out of his ___ hat." },
-            { word: "cage", rule: "soft_g", sentence: "The pet canary was safe inside its wire ___." },
-            { word: "page", rule: "soft_g", sentence: "Please turn to ___ ten of your reading booklet." },
-            { word: "huge", rule: "soft_g", sentence: "A ___ cruise ship docked at the city harbor today." },
-            { word: "large", rule: "soft_g", sentence: "We ordered a ___ pepperoni pizza to share between us." },
-            { word: "gorge", rule: "soft_g", sentence: "A deep river cut a path directly through the rocky ___." },
-            { word: "lounge", rule: "soft_g", sentence: "We sat comfortably on the sofa in the living room ___." }
-        ],
-        "List 47: Soft G (ge, gi, gy) - Part 3": [
-            { word: "fringe", rule: "soft_g", sentence: "The decorative rug had a long knitted ___ along its edge." },
-            { word: "stage", rule: "soft_g", sentence: "The actors walked out onto the wooden ___ to perform." },
-            { word: "genius", rule: "soft_g", sentence: "The clever inventor was called a complete scientific ___." },
-            { word: "gender", rule: "soft_g", sentence: "The form asked us to select our male or female ___ option." },
-            { word: "gigantic", rule: "soft_g", sentence: "The modern skyscrapers looked ___ against the city skyline." },
-            { word: "pigeon", rule: "soft_g", sentence: "A grey ___ landed on the bench looking for breadcrumbs." },
-            { word: "average", rule: "soft_g", sentence: "The ___ student score on the math quiz was eight out of ten." }
-        ],
-        "List 47: Soft G (ge, gi, gy) - Part 4": [
-            { word: "message", rule: "soft_g", sentence: "She sent a quick text ___ to her friend." },
-            { word: "geometry", rule: "soft_g", sentence: "We learned about shapes and angles during our ___ unit." },
-            { word: "oxygen", rule: "soft_g", sentence: "Human lungs breathe in vital ___ from the crisp fresh air." },
-            { word: "vegetable", rule: "soft_g", sentence: "Eating a green ___ like broccoli is excellent for health." },
-            { word: "danger", rule: "soft_g", sentence: "The bright red warning sign alerted people to immediate ___." },
-            { word: "ginger", rule: "soft_g", sentence: "We added fresh grated ___ to the sweet biscuit mix." },
-            { word: "giraffe", rule: "soft_g", sentence: "The tall ___ stretched its neck to reach the high leaves." }
-        ],
-        "List 48: Homophones - Part 1": [
-            { word: "flour", rule: "homophones", sentence: "We need wheat ___ to bake a batch of fresh bread." },
-            { word: "flower", rule: "homophones", sentence: "A beautiful yellow ___ bloomed in the garden patch." },
-            { word: "war", rule: "homophones", sentence: "Peace was finally declared after many years of tragic ___." },
-            { word: "wore", rule: "homophones", sentence: "He ___ his favorite warm woolen jersey to school." },
-            { word: "shore", rule: "homophones", sentence: "Waves crashed gently against the sandy ocean ___." },
-            { word: "sure", rule: "homophones", sentence: "Are you absolutely ___ that you know the correct answer?" },
-            { word: "plain", rule: "homophones", sentence: "The package was wrapped in a simple, ___ brown paper wrapper." }
-        ],
-        "List 48: Homophones - Part 2": [
-            { word: "plane", rule: "homophones", sentence: "The jet ___ flew high above the fluffy white clouds." },
-            { word: "our", rule: "homophones", sentence: "We are organizing a fun party at ___ house this evening." },
-            { word: "hour", rule: "homophones", sentence: "Sixty full minutes make up exactly one ___ of time." },
-            { word: "aloud", rule: "homophones", sentence: "The teacher asked me to read the book story paragraph ___." },
-            { word: "allowed", rule: "homophones", sentence: "Students are not ___ to run inside school hallways." },
-            { word: "pour", rule: "homophones", sentence: "Please ___ a glass of cold fresh water for our guest." },
-            { word: "pore", rule: "homophones", sentence: "Sweat passes through a tiny ___ on your skin surface." }
-        ],
-        "List 48: Homophones - Part 3": [
-            { word: "poor", rule: "homophones", sentence: "The ___ shivering puppy needed a warm place to sleep." },
-            { word: "cent", rule: "homophones", sentence: "One dollar is equal in total value to one hundred ___s." },
-            { word: "scent", rule: "homophones", sentence: "The sweet rose flower filled the room with a lovely ___." },
-            { word: "sent", rule: "homophones", sentence: "I ___ an email invitation to my cousin yesterday." },
-            { word: "ball", rule: "homophones", sentence: "Throw the tennis ___ directly into the target bucket." },
-            { word: "bawl", rule: "homophones", sentence: "The upset baby started to ___ loudly when it woke up." },
-            { word: "break", rule: "homophones", sentence: "Be very careful not to ___ that fragile glass vase." }
-        ],
-        "List 48: Homophones - Part 4": [
-            { word: "brake", rule: "homophones", sentence: "Squeeze the hand ___ firmly to stop your bicycle rolling." },
-            { word: "worn", rule: "homophones", sentence: "My old running shoes are completely ___ out at the bottom." },
-            { word: "warn", rule: "homophones", sentence: "The lighthouse beacon is there to ___ ships of dangerous rocks." },
-            { word: "flu", rule: "homophones", sentence: "He stayed home from school because he caught the winter ___." },
-            { word: "flew", rule: "homophones", sentence: "A flock of birds ___ high over the football field." }
-        ],
-        "List 51: Three Spellings for /air/ ('air', 'are', 'ear') - Part 1": [
-            { word: "chair", rule: "air_air", sentence: "Please pull up a wooden ___ and sit down at the table." },
-            { word: "fair", rule: "air_air", sentence: "The judge made sure the game rules were completely ___." },
-            { word: "pair", rule: "air_air", sentence: "I bought a brand new ___ of running socks today." },
-            { word: "stair", rule: "air_air", sentence: "Hold onto the handrail as you walk down the bottom ___." },
-            { word: "airfare", rule: "air_air", sentence: "We saved money to pay for our airplane travel ___." },
-            { word: "hairy", rule: "air_air", sentence: "Our pet caterpillar is incredibly fuzzy and ___." },
-            { word: "haircut", rule: "air_air", sentence: "He went to the barber shop to get a tidy short ___." }
-        ],
-        "List 51: Three Spellings for /air/ ('air', 'are', 'ear') - Part 2": [
-            { word: "repair", rule: "air_air", sentence: "The mechanic will fix and ___ our broken car engine." },
-            { word: "unfair", rule: "air_air", sentence: "It feels very ___ when someone cheats during a board game." },
-            { word: "disrepair", rule: "air_air", sentence: "The abandoned historic house fell into bad structural ___." },
-            { word: "airtight", rule: "air_air", sentence: "Store biscuits in an ___ container so they stay crunchy." },
-            { word: "armchair", rule: "air_air", sentence: "Grandad sat reading his book in the comfortable ___." },
-            { word: "dare", rule: "air_are", sentence: "Do you ___ to venture inside the spooky old cave layout?" },
-            { word: "bare", rule: "air_are", sentence: "Walking with ___ feet on hot sand can hurt." }
-        ],
-        "List 51: Three Spellings for /air/ ('air', 'are', 'ear') - Part 3": [
-            { word: "square", rule: "air_are", sentence: "A box shape has four equal sides that form a perfect ___." },
-            { word: "rare", rule: "air_are", sentence: "Finding a four-leaf clover is an extremely ___ event." },
-            { word: "share", rule: "air_are", sentence: "It is kind to ___ your colouring pencils with classmates." },
-            { word: "flare", rule: "air_are", sentence: "The stranded boat launched a bright rescue signal ___." },
-            { word: "scare", rule: "air_are", sentence: "The loud sudden noise gave us a big jump ___." },
-            { word: "glare", rule: "air_are", sentence: "Wear sunglasses to protect your eyes from the bright sun ___." },
-            { word: "spare", rule: "air_are", sentence: "Our car has a extra ___ tyre hidden inside the boot." }
-        ],
-        "List 51: Three Spellings for /air/ ('air', 'are', 'ear') - Part 4": [
-            { word: "hardware", rule: "air_are", sentence: "We bought metal nails and tools at the local ___ store." },
-            { word: "glassware", rule: "air_are", sentence: "Be careful when washing delicate crystal kitchen ___." },
-            { word: "software", rule: "air_are", sentence: "The IT expert installed new operating ___ on our computer." },
-            { word: "bear", rule: "air_ear", sentence: "A large brown ___ was catching salmon in the wild river." },
-            { word: "pear", rule: "air_ear", sentence: "I packed a sweet juicy green ___ in my lunchbox today." },
-            { word: "ear", rule: "air_ear", sentence: "The loud music volume level hurt my left ___ drum." },
-            { word: "hear", rule: "air_ear", sentence: "Speak up slightly because I cannot ___ you over the wind." }
-        ],
-        "List 51: Three Spellings for /air/ ('air', 'are', 'ear') - Part 5": [
-            { word: "tear", rule: "air_ear", sentence: "Be careful not to rip or ___ the pages of the book." },
-            { word: "dear", rule: "air_ear", sentence: "She started her formal letter with the greeting, '___ Grandma'." },
-            { word: "fear", rule: "air_ear", sentence: "He managed to conquer his deep ___ of swimming in deep water." },
-            { word: "gear", rule: "air_ear", sentence: "Change the bicycle ___ to help you pedal up the steep hill." },
-            { word: "year", rule: "air_ear", sentence: "Twelve full calendar months make up one entire ___." },
-            { word: "menswear", rule: "air_ear", sentence: "Dad went to the department store ___ section to buy a suit." },
-            { word: "footwear", rule: "air_ear", sentence: "Please remove your muddy outdoor ___ before walking on carpets." }
-        ],
-        "List 51: Three Spellings for /air/ ('air', 'are', 'ear') - Part 6": [
-            { word: "underwear", rule: "air_ear", sentence: "Pack enough fresh clothes and clean ___ for the school camp." }
-        ],
-        "List 52: The Y Suffix Rule (Keep the Y)": [
-            { word: "staying", rule: "y_keep", sentence: "We are ___ at a lovely beach house over the holidays." },
-            { word: "obeyed", rule: "y_keep", sentence: "The well-trained dog instantly ___ the sit command." },
-            { word: "enjoyed", rule: "y_keep", sentence: "Our whole family thoroughly ___ our day trip to the zoo." },
-            { word: "enjoyment", rule: "y_keep", sentence: "Reading interesting books brings great intellectual ___ to many." },
-            { word: "stayed", rule: "y_keep", sentence: "We ___ inside our tent until the rainstorm finally stopped." },
-            { word: "delays", rule: "y_keep", sentence: "Heavy morning traffic caused major road travel ___ today." }
-        ],
-        "List 52: The Y Suffix Rule (Change Y to I)": [
-            { word: "studying", rule: "y_change", sentence: "She is currently ___ hard for her final science test." },
-            { word: "studied", rule: "y_change", sentence: "We ___ the map carefully before choosing our hiking trail." },
-            { word: "beautiful", rule: "y_change", sentence: "A row of ___ colorful flowers lined the garden pathway." },
-            { word: "buried", rule: "y_change", sentence: "The pirate captain ___ the treasure chest deep underground." },
-            { word: "occupied", rule: "y_change", sentence: "All the seating spaces in the assembly hall were fully ___." },
-            { word: "easiest", rule: "y_change", sentence: "Solving the first puzzle question was definitely the ___ task." },
-            { word: "reliable", rule: "y_change", sentence: "Our old car is very ___ and never breaks down." }
-        ],
-        "List 52: The Y Suffix Rule (Change Y to I) - Part 2": [
-            { word: "carried", rule: "y_change", sentence: "He carefully ___ the heavy tray of drinks into the lounge." }
-        ],
-        "List 53: Suffixes (-tion, -sion) - Part 1": [
-            { word: "celebration", rule: "suffixes_tion", sentence: "We held a big family ___ for my sister's graduation." },
-            { word: "pollution", rule: "suffixes_tion", sentence: "Picking up litter helps to stop environmental ___." },
-            { word: "inspiration", rule: "suffixes_tion", sentence: "The brave athlete was a great ___ to young runners." },
-            { word: "consideration", rule: "suffixes_tion", sentence: "Show ___ for others by keeping your talk quiet." },
-            { word: "imagination", rule: "suffixes_tion", sentence: "Writing creative stories requires a vivid and active ___." },
-            { word: "action", rule: "suffixes_tion", sentence: "The heroic lifeguard sprang into immediate ___ to save him." },
-            { word: "condition", rule: "suffixes_tion", sentence: "Our secondhand bicycles were kept in excellent working ___." }
-        ],
-        "List 53: Suffixes (-tion, -sion) - Part 2": [
-            { word: "invitation", rule: "suffixes_tion", sentence: "I received a written ___ to attend my friend's party." },
-            { word: "competition", rule: "suffixes_tion", sentence: "She won first prize in the national spelling ___." },
-            { word: "collision", rule: "suffixes_sion", sentence: "The bumper cars were involved in a minor, noisy ___." },
-            { word: "division", rule: "suffixes_sion", sentence: "We learned about long math ___ during arithmetic class today." },
-            { word: "confusion", rule: "suffixes_sion", sentence: "Clear signs help prevent any ___ in the busy corridors." },
-            { word: "extension", rule: "suffixes_sion", sentence: "The builder added a new room ___ onto the back house." },
-            { word: "explosion", rule: "suffixes_sion", sentence: "A loud ___ shook the ground when the volcano erupted." }
-        ],
-        "List 53: Suffixes (-sion) - Part 3": [
-            { word: "television", rule: "suffixes_sion", sentence: "We watched the latest news broadcast on the evening ___." },
-            { word: "persuasion", rule: "suffixes_sion", sentence: "He used great skills of ___ to convince us to join." },
-            { word: "suspension", rule: "suffixes_sion", sentence: "The mountain bridge hung securely on thick steel ___ cables." },
-            { word: "decision", rule: "suffixes_sion", sentence: "Have you made a final ___ about which sport to play?" }
-        ],
-        "List 53: Suffixes (-cian)": [
-            { word: "musician", rule: "suffixes_cian", sentence: "The talented ___ played a beautiful tune on the piano." },
-            { word: "politician", rule: "suffixes_cian", sentence: "The local ___ spoke about building new community parks." },
-            { word: "magician", rule: "suffixes_cian", sentence: "The clever ___ made the playing card completely disappear." },
-            { word: "electrician", rule: "suffixes_cian", sentence: "An expert ___ came to install our new classroom lights." },
-            { word: "optician", rule: "suffixes_cian", sentence: "The ___ tested my eyesight and ordered new glasses." },
-            { word: "technician", rule: "suffixes_cian", sentence: "A computer ___ arrived to fix our broken school server." },
-            { word: "beautician", rule: "suffixes_cian", sentence: "The professional ___ styled her makeup for the stage play." }
-        ],
-        "List 53: Suffixes (-cian) - Part 2": [
-            { word: "dietician", rule: "suffixes_cian", sentence: "The medical ___ helped him choose healthier food habits." },
-            { word: "physician", rule: "suffixes_cian", sentence: "Our family ___ checked my health during the clinic visit." }
-        ],
-        "List 54: Unusual Spellings (Silent 'wr' and 'kn') - Part 1": [
-            { word: "wrong", rule: "unusual_wr_kn", sentence: "Double-check your sums to ensure no answers are ___." },
-            { word: "write", rule: "unusual_wr_kn", sentence: "Please ___ your full name clearly at the top page." },
-            { word: "wreath", rule: "unusual_wr_kn", sentence: "We hung a festive green decorative ___ on our front door." },
-            { word: "wrote", rule: "unusual_wr_kn", sentence: "Yesterday, she ___ a long story about a fantasy dragon." },
-            { word: "wrist", rule: "unusual_wr_kn", sentence: "He wore a shiny new watch strap around his left ___." },
-            { word: "wreck", rule: "unusual_wr_kn", sentence: "Divers explored the sunken ship ___ deep under the sea." },
-            { word: "wrap", rule: "unusual_wr_kn", sentence: "Use colorful paper to carefully ___ the birthday present." }
-        ],
-        "List 54: Unusual Spellings (Silent 'wr' and 'kn') - Part 2": [
-            { word: "wrinkle", rule: "unusual_wr_kn", sentence: "Fold the laundry flat so you don't leave a messy ___." },
-            { word: "wriggle", rule: "unusual_wr_kn", sentence: "We watched the little earthworm ___ through the dark soil." },
-            { word: "wrestler", rule: "unusual_wr_kn", sentence: "The strong athletic ___ won the golden champion belt." },
-            { word: "wrench", rule: "unusual_wr_kn", sentence: "Dad used a metal ___ to tighten the loose pipe bolt." },
-            { word: "wreckage", rule: "unusual_wr_kn", sentence: "Teams cleared the structural road ___ after the storm." },
-            { word: "wristband", rule: "unusual_wr_kn", sentence: "You must wear your entry ticket ___ during the festival." },
-            { word: "wrangle", rule: "unusual_wr_kn", sentence: "It is exhausting to constantly ___ over minor disagreements." }
-        ],
-        "List 54: Unusual Spellings (Silent 'wr' and 'kn') - Part 3": [
-            { word: "wristwatch", rule: "unusual_wr_kn", sentence: "He checked his mechanical ___ to see if he was late." },
-            { word: "knit", rule: "unusual_wr_kn", sentence: "Grandma offered to ___ a warm scarf for the winter." },
-            { word: "knot", rule: "unusual_wr_kn", sentence: "Tie a double ___ in your laces so they stay secure." },
-            { word: "know", rule: "unusual_wr_kn", sentence: "Do you ___ the exact way to get to the library?" },
-            { word: "knew", rule: "unusual_wr_kn", sentence: "I already ___ the surprise ending because I read ahead." },
-            { word: "knack", rule: "unusual_wr_kn", sentence: "She has a real natural ___ for solving tricky riddles." },
-            { word: "knee", rule: "unusual_wr_kn", sentence: "He scraped his ___ when he slipped over on gravel." }
-        ],
-        "List 54: Unusual Spellings (Silent 'wr' and 'kn') - Part 4": [
-            { word: "knob", rule: "unusual_wr_kn", sentence: "Turn the round brass door ___ to open the storage room." },
-            { word: "knead", rule: "unusual_wr_kn", sentence: "You must punch and ___ the dough thoroughly before baking." },
-            { word: "kneel", rule: "unusual_wr_kn", sentence: "The children had to ___ down to look under the low couch." },
-            { word: "knock", rule: "unusual_wr_kn", sentence: "Remember to ___ loudly on the door before you enter." },
-            { word: "knelt", rule: "unusual_wr_kn", sentence: "The gardener ___ down on a foam mat to plant seeds." },
-            { word: "knight", rule: "unusual_wr_kn", sentence: "The medieval ___ rode a grand white horse into battle." },
-            { word: "knave", rule: "unusual_wr_kn", sentence: "The historic story portrayed the character as a tricky ___." }
-        ],
-        "List 54: Unusual Spellings (Silent 'wr' and 'kn') - Part 5": [
-            { word: "kneecap", rule: "unusual_wr_kn", sentence: "The hard bone protecting your joint is called the ___." }
-        ],
-        "List 54: Unusual Spellings (Silent 'sc' and 'mb') - Part 1": [
-            { word: "science", rule: "unusual_sc_mb", sentence: "We performed a chemistry experiment in our ___ lesson." },
-            { word: "descend", rule: "unusual_sc_mb", sentence: "The climbers began to ___ carefully down the peak." },
-            { word: "crescent", rule: "unusual_sc_mb", sentence: "The curved moon looked like a shiny ___ in the sky." },
-            { word: "fascinate", rule: "unusual_sc_mb", sentence: "Incredible animal facts always manage to ___ our class." },
-            { word: "scent", rule: "unusual_sc_mb", sentence: "The bloodhound tracked the faint smell ___ through the bush." },
-            { word: "scenery", rule: "unusual_sc_mb", sentence: "The train route offered beautiful alpine mountain ___ view environments." },
-            { word: "scientist", rule: "unusual_sc_mb", sentence: "The lab ___ discovered a brand new plant species." }
-        ],
-        "List 54: Unusual Spellings (Silent 'sc' and 'mb') - Part 2": [
-            { word: "scissors", rule: "unusual_sc_mb", sentence: "Use safety ___ to cut out the cardboard shapes cleanly." },
-            { word: "ascend", rule: "unusual_sc_mb", sentence: "Hot air balloons ___ gracefully up into the morning sky." },
-            { word: "ascent", rule: "unusual_sc_mb", sentence: "The steep mountain ___ took our hiking team five hours." },
-            { word: "lamb", rule: "unusual_sc_mb", sentence: "A little white ___ skipped happily across the green grass." },
-            { word: "limb", rule: "unusual_sc_mb", sentence: "The monkey swung easily from one thick tree ___ to another." },
-            { word: "comb", rule: "unusual_sc_mb", sentence: "Use a plastic ___ to untangle your messy hair." },
-            { word: "bomb", rule: "unusual_sc_mb", sentence: "The demolition crew set off a targeted structural explosive ___." }
-        ],
-        "List 54: Unusual Spellings (Silent 'sc' and 'mb') - Part 3": [
-            { word: "tomb", rule: "unusual_sc_mb", sentence: "Archaeologists explored the ancient stone ___ of the pharaoh." },
-            { word: "numb", rule: "unusual_sc_mb", sentence: "My frozen fingers felt completely ___ in the icy water." },
-            { word: "thumb", rule: "unusual_sc_mb", sentence: "He gave a positive thumbs up sign using his ___." },
-            { word: "climb", rule: "unusual_sc_mb", sentence: "It is fun to ___ high up onto the playground frame." },
-            { word: "crumb", rule: "unusual_sc_mb", sentence: "Not a single biscuit ___ was left on the empty plate." },
-            { word: "divebomb", rule: "unusual_sc_mb", sentence: "The children love to splash and ___ into the deep pool." }
-        ],
-        "List 55: The Schwa Sound (-er endings)": [
-            { word: "sister", rule: "schwa_er", sentence: "My older ___ helped me tie up my shoelaces." },
-            { word: "winter", rule: "schwa_er", sentence: "It gets freezing cold during the dark ___ months." },
-            { word: "summer", rule: "schwa_er", sentence: "We go swimming at the beach every sunny ___ afternoon." },
-            { word: "after", rule: "schwa_er", sentence: "Remember to wash your hands ___ playing outside." },
-            { word: "never", rule: "schwa_er", sentence: "You should ___ cross the road without looking both ways." },
-            { word: "dinner", rule: "schwa_er", sentence: "We gathered around the kitchen table to eat our evening ___." }
-        ],
-        "List 55: The Schwa Sound (Mixed Spellings) - Part 1": [
-            { word: "falcon", rule: "schwa_words", sentence: "A majestic ___ soared high over the open fields." },
-            { word: "rocket", rule: "schwa_words", sentence: "The space ___ blasted off from the launching pad." },
-            { word: "quiet", rule: "schwa_words", sentence: "Please remain absolutely ___ while working in the library." },
-            { word: "pollen", rule: "schwa_words", sentence: "Bees collect yellow ___ from flowers to make honey." },
-            { word: "magnet", rule: "schwa_words", sentence: "The horseshoe ___ pulled the metal paperclips towards it." },
-            { word: "silent", rule: "schwa_words", sentence: "The empty school corridors were completely ___ at midnight." },
-            { word: "reason", rule: "schwa_words", sentence: "What is the main ___ you were late for class?" }
-        ],
-        "List 55: The Schwa Sound (Mixed Spellings) - Part 2": [
-            { word: "lemon", rule: "schwa_words", sentence: "Squeezing fresh ___ juice added a sour taste to the tea." },
-            { word: "focus", rule: "schwa_words", sentence: "Adjust the microscope lens to bring the plant cell into ___." },
-            { word: "wizard", rule: "schwa_words", sentence: "The magical ___ cast a spell with his wooden wand." },
-            { word: "survive", rule: "schwa_words", sentence: "Desert plants know how to ___ with very little water." },
-            { word: "enemy", rule: "schwa_words", sentence: "The castle soldiers defended their walls from the invading ___." },
-            { word: "problem", rule: "schwa_words", sentence: "Can you help me solve this tricky long division ___?" },
-            { word: "offend", rule: "schwa_words", sentence: "It is always best to speak politely so you do not ___ anyone." }
-        ],
-        "List 56: Plural f / fe Structural Layout Changes - Part 1": [
-            { word: "calves", rule: "plural", sentence: "The dairy cows minded their young ___ grazing in the field." },
-            { word: "loaves", rule: "plural", sentence: "The baker prepared twenty fresh ___ of wholemeal bread." },
-            { word: "halves", rule: "plural", sentence: "We cut the juicy orange into two equal ___ to share." },
-            { word: "shelves", rule: "plural", sentence: "Stack the reading library books neatly on the wooden ___." },
-            { word: "leaves", rule: "plural", sentence: "In autumn, golden orange ___ fall down from the trees." },
-            { word: "scarves", rule: "plural", sentence: "We wore thick wool ___ around our necks to stay warm." },
-            { word: "knives", rule: "plural", sentence: "Kitchen ___ must be stored away safely out of reach." }
-        ],
-        "List 56: Plural f / fe Structural Layout Changes - Part 2": [
-            { word: "thieves", rule: "plural", sentence: "The police caught the sneaky ___ escaping with the loot." },
-            { word: "wives", rule: "plural", sentence: "The group of married husbands and ___ held a dinner party." },
-            { word: "lives", rule: "plural", sentence: "Cats are jokingly said to have nine individual ___." },
-            { word: "wolves", rule: "plural", sentence: "A wild pack of ___ howled at the moon in the forest." },
-            { word: "elves", rule: "plural", sentence: "The magical mythical ___ helped build toys in the workshop." }
-        ]
+    const MASTER_SPELLING_RULES = {
+        "eigh_long_a": "🏫 <strong>Vowel Team 'eigh' (Long /a/) Lesson:</strong><br>The vowel team <strong>'eigh'</strong> represents the alternative long /a/ sound pattern.<br><ul><li>Examples: <em>eight</em>, <em>weight</em>, <em>neighbour</em>, <em>sleigh</em>, <em>neigh</em>, and <em>freight</em>.</li></ul>",
+        "ie_long_e": "🏫 <strong>Vowel Team 'ie' (Long /e/) Lesson:</strong><br>The team <strong>'ie'</strong> often operates to make a long /e/ sound inside multi-syllable syllables.<br><ul><li>Examples: <em>chief</em>, <em>thief</em>, <em>field</em>, <em>piece</em>, <em>movie</em>, <em>grief</em>, <em>belief</em>, and <em>shield</em>.</li></ul>",
+        "ough_variations": "🏫 <strong>Vowel Team 'ough' Structural Variations Lesson:</strong><br>The structural team <strong>'ough'</strong> can represent multiple sound variables:<br><ul><li>Long /o/: <em>though</em>, <em>although</em>, <em>dough</em>.</li><li>As /or/: <em>bought</em>, <em>fought</em>, <em>thought</em>, <em>brought</em>.</li><li>As /ou/: <em>plough</em>, <em>bough</em>, <em>drought</em>.</li></ul>",
+        "ue_long_u": "🏫 <strong>Vowel Team 'ue' (Long /u/) Lesson:</strong><br>The structural group <strong>'ue'</strong> creates a clear long /u/ sound.<br><ul><li>Examples: <em>cue</em>, <em>due</em>, <em>avenue</em>, <em>continue</em>, <em>fuel</em>, <em>argue</em>, and <em>rescue</em>.</li></ul>",
+        "soft_c_g": "🏫 <strong>Soft C and Soft G Structural Rule Lesson:</strong><br>When followed by letters <strong>'e', 'i', or 'y'</strong>, hard consonants turn soft:<br><ul><li><strong>Soft C</strong> makes the /s/ sound (<em>cent</em>, <em>city</em>, <em>circle</em>, <em>fence</em>, <em>decided</em>, <em>cycle</em>).</li><li><strong>Soft G</strong> makes the /j/ sound (<em>gem</em>, <em>giant</em>, <em>gym</em>, <em>magic</em>, <em>cage</em>, <em>huge</em>, <em>danger</em>).</li></ul>",
+        "homophones_3": "🏫 <strong>Advanced Homophones Lesson:</strong><br>Words that sound completely identical but retain separate configurations and meanings.<br><ul><li>Examples: <em>flour/flower</em>, <em>plain/plane</em>, <em>our/hour</em>, <em>aloud/allowed</em>, <em>cent/scent/sent</em>, <em>break/brake</em>, <em>flu/flew</em>.</li></ul>",
+        "sound_air": "🏫 <strong>Three Spellings for the Sound /air/ Lesson:</strong><br>The phoneme /air/ can be represented with three distinct visual spellings based on origins:<br><ul><li><strong>'air':</strong> <em>chair</em>, <em>fair</em>, <em>pair</em>, <em>stair</em>, <em>repair</em>.</li><li><strong>'are':</strong> <em>dare</em>, <em>bare</em>, <em>square</em>, <em>rare</em>, <em>share</em>, <em>scare</em>.</li><li><strong>'ear':</strong> <em>bear</em>, <em>pear</em>, <em>wear</em>, <em>tear</em>.</li></ul>",
+        "y_rule": "🏫 <strong>The Suffix Y Rule Lesson:</strong><br>When adding suffixes to word designs ending with the letter y:<br><ul><li><strong>Vowel + y = KEEP the y</strong> (e.g., <em>stay + ing = staying</em>, <em>obey + ed = obeyed</em>).</li><li><strong>Consonant + y = CHANGE y to i</strong> unless the suffix itself begins with an i (e.g., <em>cry + ed = cried</em>, but <em>cry + ing = crying</em>).</li></ul>",
+        "suffixes_tion_sion": "🏫 <strong>Advanced Morphology Suffixes Lesson:</strong><br>Suffix additions provide concrete compound structural clues:<br><ul><li><strong>-tion / -sion</strong> means 'the act or result of' (<em>celebration</em>, <em>pollution</em>, <em>division</em>, <em>explosion</em>).</li><li><strong>-cian</strong> means an expert practicing a specialized skill or art (<em>musician</em>, <em>politician</em>, <em>magician</em>, <em>electrician</em>).</li></ul>",
+        "unusual_silent": "🏫 <strong>Unusual Spellings (Silent Letters) Lesson:</strong><br>Words containing historical silent initial consonant configurations:<br><ul><li><strong>wr</strong> (/r/ sound): <em>wrong</em>, <em>write</em>, <em>wreck</em>, <em>wrap</em>, <em>wrinkle</em>.</li><li><strong>kn</strong> (/n/ sound): <em>knit</em>, <em>knot</em>, <em>know</em>, <em>knew</em>, <em>knee</em>, <em>knob</em>.</li></ul>",
+        "schwa_vowel": "🏫 <strong>The Unstressed Schwa Vowel Lesson:</strong><br>In multi-syllable words, the vowel in the unstressed (weak) syllable loses its purity and sounds like a soft 'uh'. It can be written with any vowel!<br><ul><li>Examples: <em>survive</em>, <em>winter</em>, <em>rocket</em>, <em>quiet</em>, <em>magnet</em>, <em>silent</em>, <em>reason</em>, <em>lemon</em>, and <em>problem</em>.</li></ul>",
+        "plural_f_fe": "🏫 <strong>Plural Rule for Words Ending in f or fe Lesson:</strong><br>Usually, when a base layout ends in an f or fe, change the <strong>'f' to a 'v' and add 's' or 'es'</strong>.<br><ul><li>Examples: <em>calf/calves</em>, <em>loaf/loaves</em>, <em>half/halves</em>, <em>shelf/shelves</em>, <em>knife/knives</em>, and <em>thief/thieves</em>.</li></ul>"
     };
 
     const formViewURL = "https://docs.google.com/forms/d/e/1FAIpQLSddB0NQFaIBv9x-feJucH_YGDwHb8suDI9h1ShPOv1yGzCCXQ/viewform";
     const nameKey = "entry.421008981"; const wordsKey = "entry.1429911539"; const incorrectKey = "entry.407995943"; const scoreKey = "entry.211442136";
+    
+    const storageKeyCurriculum = 'genericSavedCurriculum_Code4_Y56_v2';
+    const storageKeyCode = 'genericSavedCode_Code4_Y56_v2';
+    const MASTER_PANEL_PASSWORD = "admin"; 
 
-    let activeLessonWords = []; let currentWordIndex = 0; let currentStep = 0; 
-    let activeLessonLabel = ""; let studentName = "";
+    let masterRulesMap = {}; let activeLessonWords = []; let currentWordIndex = 0; let currentStep = 0; 
+    let masterTeacherCode = "tiger"; let activeLessonLabel = ""; let studentName = "";
     let correctWordsList = []; let incorrectWordsList = []; let correctCount = 0;
+    let lastSpelledWord = ""; 
+
+    const DEFAULT_Y56_DATA = {
+        "List 46a: Vowel Team eigh": [
+            { word: "weigh", rule: "eigh_long_a", sentence: "Use the scales to __ out the ingredients." },
+            { word: "eight", rule: "eigh_long_a", sentence: "The spider has __ legs crawling around." },
+            { word: "neighbour", rule: "eigh_long_a", sentence: "Our friendly __ lent us their ladder." }
+        ],
+        "List 46b: Vowel Team ie": [
+            { word: "chief", rule: "ie_long_e", sentence: "The fire __ directed the crew safely." },
+            { word: "thief", rule: "ie_long_e", sentence: "The sneaky __ escaped with the silver medal." },
+            { word: "field", rule: "ie_long_e", sentence: "We ran across the wide open grass __." }
+        ],
+        "List 47: Soft C and Soft G": [
+            { word: "circle", rule: "soft_c_g", sentence: "Draw a perfect __ on your whiteboard." },
+            { word: "giant", rule: "soft_c_g", sentence: "The old story tells of a friendly beanstalk __." },
+            { word: "magic", rule: "soft_c_g", sentence: "The entertainer performed an amazing __ trick." }
+        ],
+        "List 51: Spellings for /air/": [
+            { word: "chair", rule: "sound_air", sentence: "Pull up a comfortable __ to sit near the desk." },
+            { word: "square", rule: "sound_air", sentence: "A box has four equal corners making it a __." },
+            { word: "bear", rule: "sound_air", sentence: "We saw a giant grizzly __ catch a fish." }
+        ],
+        "List 53: Suffixes tion, sion, cian": [
+            { word: "pollution", rule: "suffixes_tion_sion", sentence: "Picking up rubbish helps reduce environmental __." },
+            { word: "explosion", rule: "suffixes_tion_sion", sentence: "We heard a loud __ from the quarry." },
+            { word: "musician", rule: "suffixes_tion_sion", sentence: "The talented __ played the grand piano beautifully." }
+        ],
+        "List 56: Plurals with f/fe": [
+            { word: "calves", rule: "plural_f_fe", sentence: "Two young __ were drinking milk from the cow." },
+            { word: "loaves", rule: "plural_f_fe", sentence: "The baker made fresh __ of warm bread." },
+            { word: "knives", rule: "plural_f_fe", sentence: "Be extra careful when washing sharp kitchen __." }
+        ]
+    };
+
+    function secureTogglePanel() {
+        const p = document.getElementById('teacherPanel');
+        if (p.style.display === 'none' || p.style.display === '') {
+            const check = prompt("Enter Master Teacher Password to unlock configuration:");
+            if (check === MASTER_PANEL_PASSWORD) { p.style.display = 'block'; }
+            else if (check !== null) { alert("Incorrect teacher security credentials."); }
+        } else { p.style.display = 'none'; }
+    }
+
+    function processBulkPaste() {
+        const rawText = document.getElementById('bulkPasteInput').value.trim();
+        if(!rawText) return alert("Box is empty!");
+        const lines = rawText.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+        let tempMap = {};
+        lines.forEach(line => {
+            const parts = line.split(',');
+            const word = parts[0] ? parts[0].trim().toLowerCase() : "";
+            const ruleName = parts[1] ? parts[1].trim() : "General List";
+            const sentence = parts.slice(2).join(',') ? parts.slice(2).join(',').trim() : "Fill in the blank: ___";
+            if (word) { if (!tempMap[ruleName]) tempMap[ruleName] = []; tempMap[ruleName].push({ word, rule: ruleName, sentence }); }
+        });
+        if (Object.keys(tempMap).length === 0) return alert("Invalid format layout lines.");
+        masterRulesMap = tempMap;
+        masterTeacherCode = document.getElementById('teacherCodeSetting').value.trim().toLowerCase();
+        localStorage.setItem(storageKeyCurriculum, JSON.stringify(masterRulesMap));
+        localStorage.setItem(storageKeyCode, masterTeacherCode);
+        document.getElementById('bulkPasteInput').value = "";
+        document.getElementById('teacherPanel').style.display = 'none';
+        studentName = ""; currentStep = 0; renderStep();
+        alert(`Year 5/6 Station Database Restructured Successfully!`);
+    }
+    
+    function getRequiredPassword() { 
+        return currentWordIndex === 0 ? masterTeacherCode : lastSpelledWord; 
+    }
+
+    function findRuleExplanation(rawRuleName) {
+        let cleaned = rawRuleName.toLowerCase().trim();
+        for (let key in MASTER_SPELLING_RULES) {
+            if (cleaned.startsWith(key)) { return MASTER_SPELLING_RULES[key]; }
+        }
+        return null;
+    }
 
     function renderStep() {
         const card = document.getElementById('gameCard');
-        
+        if (Object.keys(masterRulesMap).length === 0) {
+            card.innerHTML = `<h2>Code 4 Station</h2><p>Click <strong>Open Control Panel</strong> to setup word lists.</p>`;
+            return;
+        }
         if (currentStep === 0) {
-            card.innerHTML = `<h2>Vocabulary Station</h2><p style="font-size: 1.2rem;">Enter your name to begin:</p><input type="text" id="nameInput" class="student-input" placeholder="Your Name..." autocomplete="off"><br><button onclick="submitName()">Enter Station</button>`;
+            card.innerHTML = `<h2>Vocabulary Station (Year 5/6)</h2><p style="font-size: 1.2rem;">Enter your name:</p><input type="text" id="nameInput" class="student-input" placeholder="Your Name..."><br><button onclick="submitName()">Enter Station</button>`;
             document.getElementById('nameInput').focus();
         } else if (currentStep === 0.5) {
             let buttons = "";
             Object.keys(masterRulesMap).forEach((ruleName) => {
-                buttons += `<button class="menu-btn" onclick="launchRule('${encodeURIComponent(ruleName)}')"><span>${ruleName}</span><span style="font-size:0.85rem; font-weight:normal; color:#64748b; margin-top:5px;">(${masterRulesMap[ruleName].length} words)</span></button>`;
+                buttons += `<button class="menu-btn" onclick="launchRule('${encodeURIComponent(ruleName)}')"><span style="display:block; margin-bottom: 8px;">${ruleName}</span><span style="font-size:0.85rem; font-weight:normal; color:#64748b;">(${masterRulesMap[ruleName].length} words)</span></button>`;
             });
-            card.innerHTML = `<h2>Welcome, ${studentName}!</h2><p style="font-size: 1.1rem; margin-bottom:10px;">Select your spelling practice list:</p><div class="menu-grid">${buttons}</div>`;
+            card.innerHTML = `<h2>Welcome, ${studentName}!</h2><p style="font-size: 1.2rem; margin-bottom:10px;">Select your sub-list objective:</p><div class="menu-grid">${buttons}</div>`;
         } else {
             const currentData = activeLessonWords[currentWordIndex];
             let progressHTML = `<div class="progress-bar">${activeLessonLabel} &bull; Word ${currentWordIndex + 1} of ${activeLessonWords.length}</div>`;
-            let ruleExplanation = RULE_TEXTS[currentData.rule] || `<strong>Rule to copy:</strong> Focus on patterns in the <em>${currentData.rule}</em> category carefully!`;
+            let ruleExplanation = findRuleExplanation(currentData.rule) || `💡 <strong>Pattern Rule:</strong> Structural focus on target phoneme group <em>${currentData.rule}</em>!`;
 
             if (currentStep === 1) {
-                card.innerHTML = `${progressHTML}<div class="target-word">${currentData.word}</div><div class="rule-box">${ruleExplanation}</div><button onclick="nextStep()">I Have Studied It</button>`;
+                card.innerHTML = `${progressHTML}<div class="target-word">${currentData.word}</div><div class="rule-box">${ruleExplanation}</div><button onclick="nextStep()">I Studied It</button>`;
             } else if (currentStep === 2) {
-                card.innerHTML = `${progressHTML}<div style="font-size: 1.4rem; font-weight: bold; color: var(--primary);">Notebook Practice</div><ol><li>Copy the rule box onto your paper.</li><li>Look closely at the word: <strong>${currentData.word}</strong></li><li>Write it down into your notebook 5 times carefully.</li></ol><button onclick="nextStep()">Finished Writing</button>`;
+                let hint = currentWordIndex === 0 ? `The starting lock word is: <strong>${masterTeacherCode}</strong>` : `Type the word you just spelled to unlock your notebook work!`;
+                card.innerHTML = `${progressHTML}<div style="font-size: 1.4rem; font-weight: bold; color: var(--danger);">Notebook Practice Checkpoint</div><ol style="text-align: left; margin: 20px auto; max-width: 85%; font-size: 1.2rem; line-height: 1.6;"><li>Study target word structure: <strong>${currentData.word}</strong></li><li>Write it physically onto your paper workbook 5 times.</li></ol><div class="lock-container"><label style="font-weight: bold; display:block; margin-bottom:5px;">Password Lock</label><span style="font-size:0.9rem; color:#64748b; display:block; margin-bottom:10px;">${hint}</span><input type="text" id="passInput" class="teacher-password-input" placeholder="Password..." autocomplete="off"><br><button onclick="verifyTeacherCode()" style="margin-top:10px; padding: 8px 20px; background-color: var(--danger);">Verify Unlock</button><div id="lockFeedback" class="feedback"></div></div>`;
+                document.getElementById('passInput').focus();
             } else if (currentStep === 3) {
-                card.innerHTML = `${progressHTML}<p style="font-size:1.3rem;">Study the word layout before it disappears...</p><div class="target-word" id="fadingWord">${currentData.word}</div>`;
-                setTimeout(() => { document.getElementById('fadingWord')?.classList.add('hidden-word'); setTimeout(() => { nextStep(); }, 600); }, 1500);
+                card.innerHTML = `${progressHTML}<p style="font-size:1.3rem;">Observe spelling pattern layout closely...</p><div class="target-word" id="fadingWord">${currentData.word}</div>`;
+                setTimeout(() => { document.getElementById('fadingWord')?.classList.add('hidden-word'); setTimeout(() => { nextStep(); }, 800); }, 1800);
             } else if (currentStep === 4) {
-                card.innerHTML = `${progressHTML}<div class="sentence-prompt">${currentData.sentence}</div><input type="text" id="testInput" class="student-input" placeholder="Spell the word here" autocomplete="off" spillcheck="false"><br><button onclick="checkTestAnswer()">Verify Spelling</button><div id="testFeedback" class="feedback"></div>`;
+                card.innerHTML = `${progressHTML}<div class="sentence-prompt">${currentData.sentence.replace('__', '<em>__</em>')}</div><input type="text" id="testInput" class="student-input" placeholder="Spell target word here..." autocomplete="off"><br><button id="verifySpellingBtn" onclick="checkTestAnswer()">Verify Spelling</button><div id="testFeedback" class="feedback"></div>`;
                 document.getElementById('testInput').focus();
-                document.getElementById('testInput').addEventListener('keypress', function(e) { if(e.key === 'Enter') checkTestAnswer(); });
             }
         }
     }
 
     function submitName() { const val = document.getElementById('nameInput').value.trim(); if(val) { studentName = val; currentStep = 0.5; renderStep(); } }
-    
-    function launchRule(encoded) { 
-        activeLessonWords = masterRulesMap[decodeURIComponent(encoded)]; 
-        activeLessonLabel = decodeURIComponent(encoded); 
-        currentWordIndex = 0; correctWordsList = []; incorrectWordsList = []; correctCount = 0; currentStep = 1; 
-        renderStep(); 
-    }
-    
+    function launchRule(encoded) { activeLessonWords = masterRulesMap[decodeURIComponent(encoded)]; activeLessonLabel = decodeURIComponent(encoded); currentWordIndex = 0; correctWordsList = []; incorrectWordsList = []; correctCount = 0; lastSpelledWord = ""; currentStep = 1; renderStep(); }
     function nextStep() { currentStep++; renderStep(); }
     
+    function verifyTeacherCode() { 
+        if(document.getElementById('passInput').value.trim().toLowerCase() === getRequiredPassword()) { nextStep(); } 
+        else { const fb = document.getElementById('lockFeedback'); fb.className = "feedback error"; fb.innerHTML = "Incorrect entry lock key."; } 
+    }
+    
     function checkTestAnswer() {
-        const btn = card.querySelector('button');
-        if(btn && btn.disabled) return; // Prevent double trigger
-        
+        const btn = document.getElementById('verifySpellingBtn');
+        if (btn.disabled) return; 
+        btn.disabled = true; 
+        btn.innerText = "Checking...";
+
         const entered = document.getElementById('testInput').value.trim().toLowerCase();
         const correct = activeLessonWords[currentWordIndex].word;
         
-        // Disable interface elements briefly to prevent skipped words
-        if(btn) btn.disabled = true;
-        document.getElementById('testInput').disabled = true;
+        if(entered === correct) { 
+            correctCount++; 
+            correctWordsList.push(correct); 
+        } else { 
+            incorrectWordsList.push(`${entered || '[Blank]'} (${correct})`); 
+        }
+        
+        lastSpelledWord = correct; 
 
-        if(entered === correct) { correctCount++; correctWordsList.push(correct); } else { incorrectWordsList.push(`${entered || '[Blank]'} (${correct})`); }
         const fb = document.getElementById('testFeedback');
         fb.className = entered === correct ? "feedback success" : "feedback error";
-        fb.innerHTML = entered === correct ? "✓ Correct!" : `✗ Incorrect. The correct spelling is "${correct}".`;
+        fb.innerHTML = entered === correct ? "Correct!" : `Incorrect. Spelling structure is "${correct}".`;
         
         setTimeout(() => { 
-            if (currentWordIndex < activeLessonWords.length - 1) { currentWordIndex++; currentStep = 1; renderStep(); } else { showEndScreen(); } 
+            if (currentWordIndex < activeLessonWords.length - 1) { 
+                currentWordIndex++; 
+                currentStep = 1; 
+                renderStep(); 
+            } else { 
+                showEndScreen(); 
+            } 
         }, 2200);
     }
 
     function showEndScreen() {
         let finalScore = `${correctCount} out of ${activeLessonWords.length}`;
-        document.getElementById('gameCard').innerHTML = `<h1 style="color: var(--success);">Practice Complete</h1><p>Great job, ${studentName}!</p><p>Your Score: <strong>${finalScore}</strong></p><div id="submissionZone"><button onclick="openGoogleFormLink()">Send Progress Form</button><br><button onclick="returnToMenu()" style="background-color:#64748b; margin-top:10px;">Choose Another List</button></div>`;
+        document.getElementById('gameCard').innerHTML = `<h1 style="color: var(--success);">Objective Complete</h1><p>Splendid tracking work, ${studentName}!</p><p>Score Result: <strong>${finalScore}</strong></p><div id="submissionZone" style="margin-top:25px;"><button onclick="openGoogleFormLink()" style="background-color: var(--success); font-size:1.3rem; padding:15px 35px;">Send Progress Form</button></div><button onclick="resetToMenu()" style="background-color: #64748b; margin-top:20px; font-size:0.95rem; padding:8px 16px;">Choose Another List</button>`;
     }
-
-    function returnToMenu() { currentStep = 0.5; renderStep(); }
 
     function openGoogleFormLink() {
         let finalScore = `${correctCount} out of ${activeLessonWords.length}`;
         let filledURL = `${formViewURL}?usp=pp_url&${nameKey}=${encodeURIComponent(studentName)}&${wordsKey}=${encodeURIComponent(correctWordsList.join(', ') || "None")}&${incorrectKey}=${encodeURIComponent(incorrectWordsList.join(', ') || "None")}&${scoreKey}=${encodeURIComponent(finalScore)}`;
         window.open(filledURL, '_blank');
-        document.getElementById('submissionZone').innerHTML = `<p style="color: var(--success); font-weight:bold;">Form opened in a new tab! Click submit on that form window to log data.</p><button onclick="returnToMenu()" style="background-color:#64748b; margin-top:10px;">Choose Another List</button>`;
+        document.getElementById('submissionZone').innerHTML = `<p style="color: var(--success); font-weight:bold; font-size:1.1rem;">Form opened! Click submit on that page to finish.</p>`;
     }
 
-    currentStep = 0; renderStep();
+    function resetToMenu() { currentStep = 0.5; renderStep(); }
+
+    function init() {
+        const savedCurriculum = localStorage.getItem(storageKeyCurriculum);
+        const savedCode = localStorage.getItem(storageKeyCode);
+        if (savedCurriculum) masterRulesMap = JSON.parse(savedCurriculum);
+        else masterRulesMap = DEFAULT_Y56_DATA;
+        if (savedCode) masterTeacherCode = savedCode;
+    }
+    document.getElementById('teacherPanel').style.display = 'none';
+    init(); renderStep();
 </script>
 </body>
 </html>
