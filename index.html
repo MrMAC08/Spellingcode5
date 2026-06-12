@@ -6,24 +6,36 @@
     <title>Code 5 Vocabulary Station (Year Five)</title>
     <style>
         :root { --primary: #3b82f6; --success: #10b981; --danger: #ef4444; --bg: #f8fafc; --card-bg: #ffffff; --text: #0f172a; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 100%; max-width: 800px; }
-        .student-card { background: var(--card-bg); border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); padding: 40px; text-align: center; min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; width: 100%; max-width: 650px; margin-top: 20px; }
-        .menu-btn { background-color: #f8fafc; color: var(--text); border: 2px solid #e2e8f0; padding: 18px; font-size: 1.05rem; border-radius: 10px; cursor: pointer; font-weight: bold; text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
+        
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        
+        .container { width: 100%; max-width: 800px; margin: 0 auto; display: block; }
+        
+        .student-card { background: var(--card-bg); border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); padding: 40px; text-align: center; min-height: 400px; box-sizing: border-box; }
+        
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; width: 100%; max-width: 100%; margin-top: 20px; }
+        .menu-btn { background-color: #f8fafc; color: var(--text); border: 2px solid #e2e8f0; padding: 18px; font-size: 1.05rem; border-radius: 10px; cursor: pointer; font-weight: bold; text-align: left; display: flex; flex-direction: column; justify-content: space-between; width: 100%; box-sizing: border-box; }
         .menu-btn:hover { background-color: var(--primary); color: white; border-color: var(--primary); }
-        .progress-bar { font-weight: bold; color: var(--primary); margin-bottom: 20px; font-size: 1.1rem; }
+        
+        .progress-bar { font-weight: bold; color: var(--primary); margin-bottom: 20px; font-size: 1.1rem; display: flex; justify-content: space-between; align-items: center; }
+        .back-nav-btn { background: #e2e8f0; color: #475569; border: none; padding: 6px 12px; font-size: 0.85rem; font-weight: bold; border-radius: 6px; cursor: pointer; margin: 0; }
+        .back-nav-btn:hover { background: #cbd5e1; color: var(--text); }
+        
         .target-word { font-size: 4.5rem; font-weight: 800; letter-spacing: 1px; margin: 10px 0; transition: opacity 0.5s ease; }
         .hidden-word { opacity: 0 !important; }
-        .rule-box { background: #f8fafc; border-left: 5px solid var(--primary); padding: 20px; border-radius: 0 8px 8px 0; font-size: 1.15rem; margin: 20px 0; max-width: 90%; text-align: left; line-height: 1.6; }
+        .rule-box { background: #f8fafc; border-left: 5px solid var(--primary); padding: 20px; border-radius: 0 8px 8px 0; font-size: 1.15rem; margin: 20px 0; width: 100%; box-sizing: border-box; text-align: left; line-height: 1.6; }
         .rule-box strong { color: var(--primary); }
         .rule-box ul { margin: 8px 0; padding-left: 20px; }
-        .lock-container { background: #fef2f2; border: 2px dashed var(--danger); border-radius: 8px; padding: 15px; margin: 0 auto; width: 90%; max-width: 400px; }
+        .lock-container { background: #fef2f2; border: 2px dashed var(--danger); border-radius: 8px; padding: 15px; margin: 0 auto; width: 100%; max-width: 400px; box-sizing: border-box; }
+        
+        /* FIXED: Removed text-transform: lowercase to fully allow proper capital letters */
         .teacher-password-input, .student-input { font-size: 1.5rem; padding: 12px; text-align: center; border: 3px solid #cbd5e1; border-radius: 8px; outline: none; }
-        .teacher-password-input { width: 240px; font-size: 1.2rem; padding: 8px; text-transform: lowercase;}
-        .student-input { width: 80%; max-width: 350px; text-transform: lowercase; }
-        button { background-color: var(--primary); color: white; border: none; padding: 12px 28px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 20px; }
-        button:hover { background-color: #2563eb; }
+        .teacher-password-input { width: 240px; font-size: 1.2rem; padding: 8px; }
+        .student-input { width: 80%; max-width: 350px; }
+        
+        button.action-btn { background-color: var(--primary); color: white; border: none; padding: 12px 28px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 20px; }
+        button.action-btn:hover { background-color: #2563eb; }
+        
         .sentence-prompt { font-size: 1.6rem; margin-bottom: 25px; line-height: 1.6; }
         .sentence-prompt em { color: var(--primary); font-weight: bold; font-style: normal; text-decoration: underline; }
         .feedback { font-size: 1.2rem; font-weight: bold; margin-top: 15px; }
@@ -37,7 +49,6 @@
 </div>
 
 <script>
-    // Full internal Year 5 spelling rules mapping content definitions
     const MASTER_SPELLING_RULES = {
         "eigh_vowel_team": "🏫 <strong>Vowel Team 'eigh' Lesson (List 46a):</strong><br>The vowel team 'eigh' represents the <strong>long /a/ sound</strong> (as heard in <em>gate</em>). Remember that the silent 'g' and 'h' are part of this long vowel team.<br><ul><li>Examples: eight, eighty, eighteen, sleigh, neigh, neighbour, weigh, weight, freight, neighbourhood.</li></ul>",
         "ie_vowel_team_long_e": "🏫 <strong>Vowel Team 'ie' Long /e/ Lesson (List 46b):</strong><br>The spelling team 'ie' represents the <strong>long /e/ sound</strong> (as in <em>tree</em>). Rule: <em>'i before e, except after c'</em>.<br><ul><li>Examples: chief, thief, field, piece, movie, brief, briefly, grief, belief, believe, shriek, shield.</li></ul>",
@@ -54,7 +65,6 @@
         "plural_f_fe_changes": "🏫 <strong>Plural Alterations Ending in 'f' or 'fe' Lesson (List 56):</strong><br>Active rule: drop the final <strong>'f' or 'fe'</strong>, replace it with a <strong>'v'</strong>, and add <strong>'es'</strong>.<br><ul><li>Examples: calf ➔ calves, loaf ➔ loaves, half ➔ halves, shelf ➔ shelves, thief ➔ thieves, life ➔ lives, wolf ➔ wolves.</li></ul>"
     };
 
-    // Complete Self-Contained Year 5 Curriculum Database Matching the Liz Kane Framework Layouts
     const HARDCODED_CURRICULUM = {
         "List 46a: Vowel 'eigh'": [
             { word: "eight", rule: "eigh_vowel_team", sentence: "There are exactly __ planets in our solar system." },
@@ -167,10 +177,15 @@
     let activeLessonLabel = ""; let studentName = "";
     let correctWordsList = []; let incorrectWordsList = []; let correctCount = 0;
 
+    function resetToListMenu() {
+        currentStep = 0.5;
+        renderStep();
+    }
+
     function renderStep() {
         const card = document.getElementById('gameCard');
         if (currentStep === 0) {
-            card.innerHTML = `<h2>Vocabulary Station</h2><p style="font-size: 1.2rem;">Enter your name to begin:</p><input type="text" id="nameInput" class="student-input" placeholder="Your Name..."><br><button onclick="submitName()">Enter Station</button>`;
+            card.innerHTML = `<h2>Vocabulary Station</h2><p style="font-size: 1.2rem;">Enter your name to begin:</p><input type="text" id="nameInput" class="student-input" placeholder="Your Name..."><br><button class="action-btn" onclick="submitName()">Enter Station</button>`;
             document.getElementById('nameInput').focus();
         } else if (currentStep === 0.5) {
             let buttons = "";
@@ -180,16 +195,22 @@
             card.innerHTML = `<h2>Welcome, ${studentName}!</h2><p style="font-size: 1.2rem; margin-bottom:10px;">Select your spelling list:</p><div class="menu-grid">${buttons}</div>`;
         } else {
             const currentData = activeLessonWords[currentWordIndex];
-            let progressHTML = `<div class="progress-bar">${activeLessonLabel} &bull; Word ${currentWordIndex + 1} of ${activeLessonWords.length}</div>`;
+            
+            let progressHTML = `
+                <div class="progress-bar">
+                    <span>${activeLessonLabel} &bull; Word ${currentWordIndex + 1} of ${activeLessonWords.length}</span>
+                    <button class="back-nav-btn" onclick="resetToListMenu()">⬅ Go Back to Lists</button>
+                </div>`;
+                
             let ruleExplanation = MASTER_SPELLING_RULES[currentData.rule] || `💡 <strong>Pattern Rule:</strong> Focus on spelling your target words carefully!`;
 
             if (currentStep === 1) {
-                card.innerHTML = `${progressHTML}<div class="target-word">${currentData.word}</div><div class="rule-box">${ruleExplanation}</div><button onclick="nextStep()">I Studied It</button>`;
+                card.innerHTML = `${progressHTML}<div class="target-word">${currentData.word}</div><div class="rule-box">${ruleExplanation}</div><button class="action-btn" onclick="nextStep()">I Studied It</button>`;
             } else if (currentStep === 2) {
                 let hint = currentWordIndex === 0 ? "The starting password is: <strong>tiger</strong>" : "Type the previous word you just spelled to unlock your notebook work!";
                 let correctPasswordValue = currentWordIndex === 0 ? "tiger" : activeLessonWords[currentWordIndex - 1].word;
                 
-                card.innerHTML = `${progressHTML}<div style="font-size: 1.4rem; font-weight: bold; color: var(--danger);">Notebook Practice</div><ol style="text-align: left; margin: 20px auto; max-width: 85%; font-size: 1.2rem; line-height: 1.6;"><li>Look closely at the word: <strong>${currentData.word}</strong></li><li>Write it down on paper 5 times.</li></ol><div class="lock-container"><label style="font-weight: bold; display:block; margin-bottom:5px;">Password Lock</label><span style="font-size:0.9rem; color:#64748b; display:block; margin-bottom:10px;">${hint}</span><input type="text" id="passInput" class="teacher-password-input" placeholder="Password..." autocomplete="off" autocapitalize="none"><br><button id="lockBtn" style="margin-top:10px; padding: 8px 20px; background-color: var(--danger);">Unlock</button><div id="lockFeedback" class="feedback"></div></div>`;
+                card.innerHTML = `${progressHTML}<div style="font-size: 1.4rem; font-weight: bold; color: var(--danger);">Notebook Practice</div><ol style="text-align: left; margin: 20px auto; max-width: 85%; font-size: 1.2rem; line-height: 1.6;"><li>Look closely at the word: <strong>${currentData.word}</strong></li><li>Write it down on paper 5 times.</li></ol><div class="lock-container"><label style="font-weight: bold; display:block; margin-bottom:5px;">Password Lock</label><span style="font-size:0.9rem; color:#64748b; display:block; margin-bottom:10px;">${hint}</span><input type="text" id="passInput" class="teacher-password-input" placeholder="Password..." autocomplete="off"><br><button id="lockBtn" style="margin-top:10px; padding: 8px 20px; background-color: var(--danger); border:none; color:white; font-weight:bold; border-radius:6px; cursor:pointer;">Unlock</button><div id="lockFeedback" class="feedback"></div></div>`;
                 
                 document.getElementById('passInput').focus();
                 document.getElementById('lockBtn').onclick = function() {
@@ -201,7 +222,7 @@
                 card.innerHTML = `${progressHTML}<p style="font-size:1.3rem;">Study before it disappears...</p><div class="target-word" id="fadingWord">${currentData.word}</div>`;
                 setTimeout(() => { document.getElementById('fadingWord')?.classList.add('hidden-word'); setTimeout(() => { nextStep(); }, 800); }, 1800);
             } else if (currentStep === 4) {
-                card.innerHTML = `${progressHTML}<div class="sentence-prompt">${currentData.sentence}</div><input type="text" id="testInput" class="student-input" placeholder="Spell here" autocomplete="off" autocapitalize="none"><br><button onclick="checkTestAnswer()">Verify Spelling</button><div id="testFeedback" class="feedback"></div>`;
+                card.innerHTML = `${progressHTML}<div class="sentence-prompt">${currentData.sentence}</div><input type="text" id="testInput" class="student-input" placeholder="Spell here" autocomplete="off"><br><button class="action-btn" onclick="checkTestAnswer()">Verify Spelling</button><div id="testFeedback" class="feedback"></div>`;
                 document.getElementById('testInput').focus();
             }
         }
@@ -212,22 +233,34 @@
     function nextStep() { currentStep++; renderStep(); }
     
     function checkTestAnswer() {
-        const entered = document.getElementById('testInput').value.trim().toLowerCase().replace(/[^a-zA-Z-]/g, "");
-        const correct = activeLessonWords[currentWordIndex].word.toLowerCase().replace(/[^a-zA-Z-]/g, "");
+        // FIXED: Kept raw string storage intact while evaluating the answer with .toLowerCase() strictly for grading fairness.
+        const originalEntered = document.getElementById('testInput').value.trim();
+        const enteredEvaluated = originalEntered.toLowerCase().replace(/[^a-zA-Z-]/g, "");
+        const correctEvaluated = activeLessonWords[currentWordIndex].word.toLowerCase().replace(/[^a-zA-Z-]/g, "");
         
-        if(entered === correct) { correctCount++; correctWordsList.push(activeLessonWords[currentWordIndex].word); } 
-        else { incorrectWordsList.push(`${entered || '[Blank]'} (${activeLessonWords[currentWordIndex].word})`); }
+        if(enteredEvaluated === correctEvaluated) { 
+            correctCount++; 
+            correctWordsList.push(activeLessonWords[currentWordIndex].word); 
+        } else { 
+            incorrectWordsList.push(`${originalEntered || '[Blank]'} (${activeLessonWords[currentWordIndex].word})`); 
+        }
         
         const fb = document.getElementById('testFeedback');
-        fb.className = entered === correct ? "feedback success" : "feedback error";
-        fb.innerHTML = entered === correct ? "Correct!" : `Incorrect. Spelling is "${activeLessonWords[currentWordIndex].word}".`;
+        fb.className = enteredEvaluated === correctEvaluated ? "feedback success" : "feedback error";
+        fb.innerHTML = enteredEvaluated === correctEvaluated ? "Correct!" : `Incorrect. Spelling is "${activeLessonWords[currentWordIndex].word}".`;
         
         setTimeout(() => { if (currentWordIndex < activeLessonWords.length - 1) { currentWordIndex++; currentStep = 1; renderStep(); } else { showEndScreen(); } }, 2200);
     }
 
     function showEndScreen() {
-        let finalScore = `${correctCount} out of ${activeLessonWords.length}`;
-        document.getElementById('gameCard').innerHTML = `<h1 style="color: var(--success);">Practice Complete</h1><p>Great job, ${studentName}!</p><p>Score: <strong>${finalScore}</strong></p><div id="submissionZone"><button onclick="openGoogleFormLink()">Send Progress Form</button></div>`;
+        document.getElementById('gameCard').innerHTML = `
+            <div class="progress-bar" style="justify-content: flex-end;">
+                <button class="back-nav-btn" onclick="resetToListMenu()">⬅ Go Back to Lists</button>
+            </div>
+            <h1 style="color: var(--success);">Practice Complete</h1>
+            <p>Great job, ${studentName}!</p>
+            <p>Score: <strong>${correctCount} out of ${activeLessonWords.length}</strong></p>
+            <div id="submissionZone"><button class="action-btn" onclick="openGoogleFormLink()">Send Progress Form</button></div>`;
     }
 
     function openGoogleFormLink() {
