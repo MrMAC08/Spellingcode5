@@ -26,10 +26,7 @@
         .container { 
             width: 100%; 
             max-width: 800px; 
-            position: relative;
-            z-index: 1;
         }
-        /* Fixed display none logic here to prevent invisible overlaps on Chromebooks */
         .teacher-panel { 
             display: none; 
             background: #f1f5f9; 
@@ -37,8 +34,6 @@
             border-radius: 12px; 
             padding: 20px; 
             margin-bottom: 30px; 
-            position: relative;
-            z-index: 10;
         }
         .teacher-panel h2 { margin-top: 0; color: #334155; }
         .bulk-textarea { 
@@ -64,31 +59,28 @@
             flex-direction: column; 
             justify-content: center; 
             align-items: center; 
-            position: relative;
-            z-index: 2;
         }
-        .menu-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
-            gap: 15px; 
+        /* Changed from grid to a clean vertical stack to prevent Chromebook overlapping bugs */
+        .menu-list { 
+            display: flex;
+            flex-direction: column;
+            gap: 12px; 
             width: 100%; 
-            max-width: 650px; 
+            max-width: 500px; 
             margin-top: 20px; 
         }
         .menu-btn { 
             background-color: #f8fafc; 
             color: var(--text); 
             border: 2px solid #e2e8f0; 
-            padding: 18px; 
-            font-size: 1.05rem; 
+            padding: 16px; 
+            font-size: 1.1rem; 
             border-radius: 10px; 
             cursor: pointer; 
             font-weight: bold; 
-            text-align: left; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between; 
-            pointer-events: auto; /* Force element pointer handling */
+            text-align: center; 
+            width: 100%;
+            box-sizing: border-box;
         }
         .menu-btn:hover { 
             background-color: var(--primary); 
@@ -108,7 +100,6 @@
         button { background-color: var(--primary); color: white; border: none; padding: 12px 28px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 20px; }
         button:hover { background-color: #2563eb; }
         .sentence-prompt { font-size: 1.6rem; margin-bottom: 25px; line-height: 1.6; }
-        .sentence-prompt em { color: var(--primary); font-weight: bold; font-style: normal; text-decoration: underline; }
         .feedback { font-size: 1.2rem; font-weight: bold; margin-top: 15px; }
         .feedback.success { color: var(--success); }
         .feedback.error { color: var(--danger); }
@@ -126,8 +117,8 @@
         </div>
         <div style="margin-bottom: 15px;">
             <label style="font-weight:bold; display:block; margin-bottom:5px;">Paste Code 5 Word List Below:</label>
-            <div style="font-size:0.85rem; color:#64748b; margin-bottom:5px;">Format: Word, Rule_Key, Sentence with __ blank</div>
-            <textarea id="bulkPasteInput" class="bulk-textarea" placeholder="eight, eigh_vowel_team, There are exactly __ planets in our solar system."></textarea>
+            <div style="font-size:0.85rem; color:#64748b; margin-bottom:5px;">Format: Word, Part Name, Sentence with __ blank</div>
+            <textarea id="bulkPasteInput" class="bulk-textarea" placeholder="eight, Part 1, There are exactly __ planets in our solar system."></textarea>
             <button onclick="processBulkPaste()" style="margin-top:0; padding:10px 20px; font-size:1rem; background-color:var(--success); width:100%;">Apply List to Code 5</button>
         </div>
     </div>
@@ -135,6 +126,23 @@
 </div>
 
 <script>
+    // Intelligent mapping link: Checks what "Part" you pasted, and links it directly to the true Year 5 rule content
+    const PART_TO_RULE_MAP = {
+        "part 1": "eigh_vowel_team",          // List 46a
+        "part 2": "ie_vowel_team_long_e",     // List 46b
+        "part 3": "ough_variations",          // List 46c (eg. long o / ou)
+        "part 4": "ough_variations",          // List 46c (eg. /or/ sound)
+        "part 5": "ue_vowel_team_long_u",     // List 46d
+        "part 6": "soft_c_soft_g",            // List 47 (Soft C)
+        "part 7": "soft_c_soft_g",            // List 47 (Soft G)
+        "part 8": "three_spellings_air",      // List 51
+        "part 9": "y_suffix_rules",           // List 52
+        "part 10": "administrative_suffixes", // List 53
+        "part 11": "unusual_spellings",       // List 54
+        "part 12": "schwa_unstressed_vowels", // List 55
+        "part 13": "plural_f_fe_changes"      // List 56
+    };
+
     const MASTER_SPELLING_RULES = {
         "eigh_vowel_team": "🏫 <strong>Vowel Team 'eigh' Lesson (List 46a):</strong><br>The vowel team 'eigh' makes a single long /a/ sound (as in <em>gate</em>).<br><ul><li>Examples include: <em>eight, eighty, eighteen, sleigh, neigh, neighbour, weigh, weight</em>.</li></ul>",
         "ie_vowel_team_long_e": "🏫 <strong>Vowel Team 'ie' Long /e/ Lesson (List 46b):</strong><br>The spelling team 'ie' represents the <strong>long /e/ sound</strong> (as in <em>tree</em>).<br><ul><li>Rule: <em>'i before e, except after c'</em>. Examples: <em>chief, thief, field, piece, movie, brief, belief</em>.</li></ul>",
@@ -164,38 +172,28 @@
         const p = document.getElementById('teacherPanel');
         if (p.style.display === 'none' || p.style.display === '') {
             const check = prompt("Enter Master Teacher Password to unlock configuration:");
-            if (check === MASTER_PANEL_PASSWORD) { 
-                p.style.display = 'block'; 
-            } else if (check !== null) { 
-                alert("Incorrect teacher security credentials."); 
-            }
-        } else { 
-            p.style.display = 'none'; 
-        }
+            if (check === MASTER_PANEL_PASSWORD) { p.style.display = 'block'; }
+        } else { p.style.display = 'none'; }
     }
 
     function processBulkPaste() {
         const rawText = document.getElementById('bulkPasteInput').value.trim();
         if(!rawText) return alert("Box is empty!");
         
-        // Clean up formatting issues by breaking down lines carefully and eliminating hidden symbols
         const lines = rawText.split('\n').map(line => line.trim()).filter(line => line.length > 0);
         let tempMap = {};
         
         lines.forEach(line => {
             const parts = line.split(',');
-            // Fix 2: Clean up words completely when loading, removing any stray control tokens (\r, hidden tabs)
             const word = parts[0] ? parts[0].trim().toLowerCase().replace(/[^a-zA-Z-]/g, "") : "";
-            const ruleName = parts[1] ? parts[1].trim() : "General List";
+            const rawPartName = parts[1] ? parts[1].trim() : "Part 1";
             const sentence = parts.slice(2).join(',') ? parts.slice(2).join(',').trim() : "Fill in the blank: ___";
             
             if (word) { 
-                if (!tempMap[ruleName]) tempMap[ruleName] = []; 
-                tempMap[ruleName].push({ word, rule: ruleName, sentence }); 
+                if (!tempMap[rawPartName]) tempMap[rawPartName] = []; 
+                tempMap[rawPartName].push({ word, rule: rawPartName, sentence }); 
             }
         });
-        
-        if (Object.keys(tempMap).length === 0) return alert("Invalid format layout lines.");
         
         masterRulesMap = tempMap;
         masterTeacherCode = document.getElementById('teacherCodeSetting').value.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, "");
@@ -204,22 +202,23 @@
         localStorage.setItem(storageKeyCode, masterTeacherCode);
         
         document.getElementById('bulkPasteInput').value = "";
-        document.getElementById('teacherPanel').style.display = 'none'; // Closes clean, dropping layer block layout
+        document.getElementById('teacherPanel').style.display = 'none';
         
         studentName = ""; currentStep = 0; renderStep();
-        alert(`Code 5 updated successfully!`);
+        alert(`Code 5 updated successfully with ${Object.keys(masterRulesMap).length} Lists!`);
     }
     
     function getRequiredPassword() { 
         return currentWordIndex === 0 ? masterTeacherCode : activeLessonWords[currentWordIndex - 1].word; 
     }
 
-    function findRuleExplanation(rawRuleName) {
-        let cleaned = rawRuleName.toLowerCase().trim();
-        for (let key in MASTER_SPELLING_RULES) {
-            if (cleaned.startsWith(key)) { return MASTER_SPELLING_RULES[key]; }
+    function findRuleExplanation(rawPartLabel) {
+        let cleanLabel = rawPartLabel.toLowerCase().trim();
+        let ruleKey = PART_TO_RULE_MAP[cleanLabel];
+        if (ruleKey && MASTER_SPELLING_RULES[ruleKey]) {
+            return MASTER_SPELLING_RULES[ruleKey];
         }
-        return null;
+        return `💡 <strong>Pattern Rule:</strong> Focus on spelling words in <em>${rawPartLabel}</em> carefully!`;
     }
 
     function renderStep() {
@@ -233,15 +232,21 @@
             document.getElementById('nameInput').focus();
         } else if (currentStep === 0.5) {
             let buttons = "";
-            Object.keys(masterRulesMap).forEach((ruleName) => {
-                // Displays actual custom list name on buttons
-                buttons += `<button class="menu-btn" onclick="launchRule('${encodeURIComponent(ruleName)}')"><span style="display:block; margin-bottom: 8px;">${ruleName}</span><span style="font-size:0.85rem; font-weight:normal; color:#64748b;">(${masterRulesMap[ruleName].length} words)</span></button>`;
+            // Order keys numerically so Part 1, Part 2 are displayed sequentially
+            const sortedKeys = Object.keys(masterRulesMap).sort((a, b) => {
+                const numA = parseInt(a.replace(/\D/g, '')) || 0;
+                const numB = parseInt(b.replace(/\D/g, '')) || 0;
+                return numA - numB;
             });
-            card.innerHTML = `<h2>Hello, ${studentName}!</h2><p style="font-size: 1.2rem; margin-bottom:10px;">Select your list:</p><div class="menu-grid">${buttons}</div>`;
+
+            sortedKeys.forEach((partName) => {
+                buttons += `<button class="menu-btn" onclick="launchRule('${encodeURIComponent(partName)}')">${partName} (${masterRulesMap[partName].length} words)</button>`;
+            });
+            card.innerHTML = `<h2>Hello, ${studentName}!</h2><p style="font-size: 1.2rem; margin-bottom:10px;">Select your list:</p><div class="menu-list">${buttons}</div>`;
         } else {
             const currentData = activeLessonWords[currentWordIndex];
             let progressHTML = `<div class="progress-bar">${activeLessonLabel} &bull; Word ${currentWordIndex + 1} of ${activeLessonWords.length}</div>`;
-            let ruleExplanation = findRuleExplanation(currentData.rule) || `💡 <strong>Pattern Rule:</strong> Focus on spelling words in the <em>${currentData.rule}</em> category carefully!`;
+            let ruleExplanation = findRuleExplanation(currentData.rule);
 
             if (currentStep === 1) {
                 card.innerHTML = `${progressHTML}<div class="target-word">${currentData.word}</div><div class="rule-box">${ruleExplanation}</div><button onclick="nextStep()">I Studied It</button>`;
@@ -264,14 +269,12 @@
     function nextStep() { currentStep++; renderStep(); }
     
     function verifyTeacherCode() { 
-        // Force inputs checked to clean lower case string structures to strip auto-caps failures
         const rawInput = document.getElementById('passInput').value.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, "");
         if(rawInput === getRequiredPassword()) { nextStep(); } 
         else { const fb = document.getElementById('lockFeedback'); fb.className = "feedback error"; fb.innerHTML = "Incorrect password lock."; } 
     }
     
     function checkTestAnswer() {
-        // Advanced sanitization on spelling test verification
         const entered = document.getElementById('testInput').value.trim().toLowerCase().replace(/[^a-zA-Z-]/g, "");
         const correct = activeLessonWords[currentWordIndex].word;
         
