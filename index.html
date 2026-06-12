@@ -3,115 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Code Curriculum Workbook - Year 5 & 6</title>
+    <title>Year 5 & 6 Spelling & Grammar Workbook</title>
     <style>
-        :root {
-            --primary: #ec4899;
-            --primary-dark: #be185d;
-            --success: #16a34a;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #1e293b;
-            --border: #e2e8f0;
-        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
+            background-color: #f1f5f9;
+            color: #0f172a;
             margin: 0;
             padding: 20px;
+            line-height: 1.5;
         }
         .container {
-            max-width: 1100px;
+            max-width: 850px;
             margin: 0 auto;
         }
         header {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--border);
-        }
-        h1 { margin-bottom: 0.5rem; color: #0f172a; }
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-        @media (min-width: 768px) {
-            .grid { grid-template-columns: 1fr 1fr; }
-        }
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        .card h2 {
-            margin-top: 0;
-            color: var(--primary);
-            font-size: 1.25rem;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 0.5rem;
-        }
-        .rule-box {
-            background: #f1f5f9;
-            border-left: 4px solid var(--primary);
-            padding: 0.75rem;
-            margin: 0.5rem 0 1rem 0;
-            font-size: 0.9rem;
-            font-style: italic;
-        }
-        .word-tag {
-            display: inline-block;
-            background: #e2e8f0;
-            padding: 0.25rem 0.5rem;
-            margin: 0.2rem;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .word-tag:hover { background: #cbd5e1; }
-        .interactive-zone {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px dashed var(--border);
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            box-sizing: border-box;
-            margin-bottom: 0.5rem;
-        }
-        button {
-            background: var(--primary);
+            background: #ec4899;
             color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        header h1 { margin: 0; font-size: 1.8rem; }
+        header p { margin: 5px 0 0 0; opacity: 0.9; font-size: 0.95rem; }
+        
+        .lesson-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+            border: 1px solid #e2e8f0;
+        }
+        .lesson-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .lesson-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #9d174d;
+        }
+        .part-badge {
+            background: #fce7f3;
+            color: #9d174d;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
             font-weight: 600;
         }
-        button:hover { background: var(--primary-dark); }
-        .output {
-            margin-top: 0.5rem;
-            font-weight: bold;
-            font-size: 0.9rem;
-            color: var(--success);
+        .rule-instruction {
+            background: #f8fafc;
+            border-left: 4px solid #ec4899;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
         }
-        .badge {
+        .rule-instruction strong { color: #1e293b; display: block; margin-bottom: 4px; }
+        .rule-text { color: #475569; font-style: italic; font-size: 0.95rem; }
+        
+        .word-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
+        }
+        .word-item {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .word-item:hover {
+            border-color: #ec4899;
+            background: #f8fafc;
+        }
+        .word-item.completed {
+            background: #bbf7d0;
+            border-color: #22c55e;
+            color: #15803d;
+            text-decoration: line-through;
+        }
+        .check-mark {
+            display: block;
             font-size: 0.75rem;
-            text-transform: uppercase;
-            padding: 0.15rem 0.4rem;
-            border-radius: 3px;
+            color: #16a34a;
             font-weight: bold;
-            color: white;
-            float: right;
-            background-color: var(--primary);
+            margin-top: 2px;
         }
     </style>
 </head>
@@ -119,135 +108,127 @@
 
 <div class="container">
     <header>
-        <h1>The Code Workbook - Year 5 & 6</h1>
-        <p>Comprehensive Linguistic Rules Engines & Patterns for Year 5 & 6 Lists</p>
+        <h1>Year 5 & 6 Spelling & Grammar Workbook</h1>
+        <p>Instructions: Copy the rule heading and explanation into your notebook, then practice and copy each word. Click a word card to check it off!</p>
     </header>
 
-    <div class="grid" id="workbook-grid"></div>
+    <div id="workbook-container"></div>
 </div>
 
 <script>
-    const curriculumData = {
-        "46a": {
-            title: "List 46a: Vowel Team 'eigh'",
-            rule: "The vowel team 'eigh' operates cohesively to represent the long /a/ vowel sound.",
-            words: ["eight", "eighty", "eighteen", "sleigh", "neigh", "neighbour", "weigh", "weight", "freight", "heavyweight", "lightweight", "neighbourhood"],
-            type: "phonetic"
-        },
-        "46b": {
-            title: "List 46b: Vowel Team 'ie' (Long /e/)",
-            rule: "The vowel team 'ie' represents the alternative long /e/ sound.",
-            words: ["chief", "thief", "field", "piece", "movie", "brief", "briefly", "grief", "belief", "believe", "shriek", "retrieve", "diesel", "shield", "priest", "wield"],
-            type: "phonetic"
-        },
-        "46c": {
-            title: "List 46c: Quadgraph 'ough'",
-            rule: "The structural spelling 'ough' is a complex quadgraph representing multiple sound paths, including long /o/, /or/, and /ou/.",
-            words: ["though", "although", "dough", "doughnut", "bought", "fought", "thought", "sought", "nought", "brought", "plough", "ploughs", "bough", "drought"],
-            type: "phonetic"
-        },
-        "46d": {
-            title: "List 46d: Vowel Team 'ue' (Long /u/)",
-            rule: "Vowel team 'ue' represents the long /u/ sound.",
-            words: ["cue", "due", "avenue", "continue", "duel", "fuel", "hue", "argue", "value", "rescue", "statue", "barbecue"],
-            type: "phonetic"
-        },
-        "47": {
-            title: "List 47: Soft C and Soft G",
-            rule: "'c' makes a soft /s/ sound when followed by 'e', 'i', or 'y'. 'g' makes a soft /j/ sound when followed by 'e', 'i', or 'y'.",
-            words: ["cent", "cell", "circus", "cement", "rice", "nice", "dice", "lace", "prince", "space", "price", "city", "circle", "place", "face", "fence", "pencil", "council", "citizen", "citrus", "century", "ambulance", "sentence", "groceries", "cicada", "decided", "cycle", "cyclone", "gel", "germ", "gem", "giant", "gym", "gymnastics", "Egypt", "magic", "cage", "page", "huge", "large", "gorge", "lounge", "fringe", "stage", "genius", "gender", "gigantic", "pigeon", "average", "message", "geometry", "oxygen", "vegetable", "danger", "ginger", "giraffe"],
-            type: "soft_engine"
-        },
-        "48": {
-            title: "List 48: Homophones",
-            rule: "Homophones sound identical but carry completely unique spelling configurations based on contextual meaning.",
-            words: ["flour", "flower", "war", "wore", "shore", "sure", "plain", "plane", "our", "hour", "aloud", "allowed", "pour", "pore", "poor", "cent", "scent", "sent", "ball", "bawl", "break", "brake", "worn", "warn", "flu", "flew"],
-            type: "homophone"
-        },
-        "51": {
-            title: "List 51: Triple Sound Patterns for /air/",
-            rule: "The phoneme /air/ can be represented across three alternative graphic structures: 'air', 'are', and 'ear'.",
-            words: ["chair", "fair", "pair", "stair", "airfare", "hairy", "haircut", "repair", "unfair", "disrepair", "airtight", "armchair", "dare", "bare", "square", "rare", "share", "flare", "scare", "glare", "spare", "hardware", "glassware", "software", "bear", "pear", "ear", "hear", "tear", "dear", "fear", "gear", "year", "menswear", "footwear", "underwear"],
-            type: "phonetic"
-        },
-        "52": {
-            title: "List 52: Morphological Y-to-I Rule",
-            rule: "If a base word ends in a vowel + 'y', keep the 'y'. If a base word ends in a consonant + 'y', change the 'y' to 'i' before adding any suffix (unless the suffix starts with 'i', such as -ing).",
-            words: ["staying", "obeyed", "enjoyed", "enjoyment", "stayed", "delays", "delayed", "playing", "played", "playful"],
-            type: "y_engine"
-        },
-        "53": {
-            title: "List 53: Suffixes (-tion / -sion / -cian)",
-            rule: "Abstract noun suffixes representing different structural environments: '-tion' and '-sion' show states of action/being, while '-cian' highlights a person's trade or skill background.",
-            words: ["celebration", "pollution", "inspiration", "consideration", "imagination", "action", "condition", "invitation", "competition", "collision", "division", "confusion", "extension", "explosion", "television", "persuasion", "suspension", "decision", "musician", "politician", "magician", "electrician", "optician", "technician", "beautician", "dietician", "physician"],
-            type: "phonetic"
-        },
-        "54": {
-            title: "List 54: Silent Consonants",
-            rule: "Historical consonant combinations where one element remains orthographically silent: 'wr' -> /r/, 'kn' -> /n/, 'sc' -> /s/, 'mb' -> /m/.",
-            words: ["wrong", "write", "wreath", "wrote", "wrist", "wreck", "wrap", "wrinkle", "wriggle", "wrestler", "wrench", "wreckage", "wristband", "wrangle", "wristwatch", "knit", "knot", "know", "knew", "knack", "knee", "knob", "knead", "kneel", "knelt", "knife", "knight", "knitted", "knitting", "knapsack", "science", "scissors", "scent", "scene", "scenery", "scented", "climb", "lamb", "thumb", "comb", "crumb", "bomb", "numb", "limb", "tomb", "plumber"],
-            type: "phonetic"
-        },
-        "55": {
-            title: "List 55: The Schwa Neutral Vowel",
-            rule: "In the unaccented syllables of multi-syllabic words, vowels reduce to an indistinct, neutral schwa sound.",
-            words: ["winter", "summer", "after", "never", "sister", "dinner", "falcon", "rocket", "quiet", "pollen", "magnet", "silent", "reason", "lemon", "focus", "wizard", "survive", "enemy", "problem", "offend"],
-            type: "phonetic"
-        },
-        "56": {
-            title: "List 56: Pluralizing 'f' and 'fe' Words",
-            rule: "To pluralize nouns that end with 'f' or 'fe', change the 'f' or 'fe' to a 'v' and append '-es' or '-s'.",
-            words: ["calf", "calves", "loaf", "loaves", "half", "halves", "shelf", "shelves", "leaf", "leaves", "scarf", "scarves", "knife", "knives", "thief", "thieves", "wife", "wives", "life", "lives", "wolf", "wolves", "elf", "elves"],
-            type: "f_engine"
-        }
-    };
-
-    function executeLinguisticEngine(listId, val) {
-        let input = val.trim().toLowerCase();
-        if(!input) return "Provide input for rule evaluation.";
+    const dataY56 = [
+        { title: "List 46a: Vowel Team 'eigh'", rule: "The vowel team 'eigh' represents the long /a/ vowel sound.", words: ["eight", "eighty", "eighteen", "sleigh", "neigh", "neighbour"] },
+        { title: "List 46a: Vowel Team 'eigh'", rule: "The vowel team 'eigh' represents the long /a/ vowel sound.", words: ["weigh", "weight", "freight", "heavyweight", "lightweight", "neighbourhood"] },
         
-        const type = curriculumData[listId].type;
+        { title: "List 46b: Vowel Team 'ie' (Long /e/)", rule: "The vowel team 'ie' represents the long /e/ sound.", words: ["chief", "thief", "field", "piece", "movie", "brief"] },
+        { title: "List 46b: Vowel Team 'ie' (Long /e/)", rule: "The vowel team 'ie' represents the long /e/ sound.", words: ["briefly", "grief", "belief", "believe", "shriek", "retrieve"] },
+        { title: "List 46b: Vowel Team 'ie' (Long /e/)", rule: "The vowel team 'ie' represents the long /e/ sound.", words: ["diesel", "shield", "priest", "wield"] },
+        
+        { title: "List 46c: Quadgraph 'ough'", rule: "The complex quadgraph 'ough' represents multiple sound paths, including long /o/, /or/, and /ou/.", words: ["though", "although", "dough", "doughnut"] },
+        { title: "List 46c: Quadgraph 'ough'", rule: "The complex quadgraph 'ough' represents multiple sound paths, including long /o/, /or/, and /ou/.", words: ["bought", "fought", "thought", "sought", "nought", "brought"] },
+        { title: "List 46c: Quadgraph 'ough'", rule: "The complex quadgraph 'ough' represents multiple sound paths, including long /o/, /or/, and /ou/.", words: ["plough", "ploughs", "bough", "drought"] },
+        
+        { title: "List 46d: Vowel Team 'ue' (Long /u/)", rule: "Vowel team 'ue' represents the long /u/ sound.", words: ["cue", "due", "avenue", "continue", "duel", "fuel"] },
+        { title: "List 46d: Vowel Team 'ue' (Long /u/)", rule: "Vowel team 'ue' represents the long /u/ sound.", words: ["hue", "argue", "value", "rescue", "statue", "barbecue"] },
+        
+        { title: "List 47: Soft C and Soft G", rule: "'c' makes a soft /s/ sound when followed by 'e', 'i', or 'y'. 'g' makes a soft /j/ sound when followed by 'e', 'i', or 'y'.", words: ["cent", "cell", "circus", "cement", "rice", "nice"] },
+        { title: "List 47: Soft C and Soft G", rule: "'c' makes a soft /s/ sound when followed by 'e', 'i', or 'y'. 'g' makes a soft /j/ sound when followed by 'e', 'i', or 'y'.", words: ["dice", "lace", "prince", "space", "price", "city"] },
+        { title: "List 47: Soft C and Soft G", rule: "'c' makes a soft /s/ sound when followed by 'e', 'i', or 'y'. 'g' makes a soft /j/ sound when followed by 'e', 'i', or 'y'.", words: ["circle", "place", "face", "fence", "pencil", "council"] },
+        { title: "List 47: Soft C and Soft G", rule: "'c' makes a soft /s/ sound when followed by 'e', 'i', or 'y'. 'g' makes a soft /j/ sound when followed by 'e', 'i', or 'y'.", words: ["citizen", "citrus", "century", "ambulance", "sentence", "groceries"] },
+        { title: "List 47: Soft C and Soft G", rule: "'c' makes a soft /s/ sound when followed by 'e', 'i', or 'y'. 'g' makes a soft /j/ sound when followed by 'e', 'i', or 'y'.", words: ["cicada", "decided", "cycle", "cyclone", "gel", "germ", "gem"] },
+        { title: "List 47: Soft C and Soft G", rule: "'c' makes a soft /s/ sound when followed by 'e', 'i', or 'y'. 'g' makes a soft /j/ sound when followed by 'e', 'i', or 'y'.", words: ["giant", "gym", "gymnastics", "Egypt", "magic", "cage", "page"] },
+        { title: "List 47: Soft C and Soft G", rule: "'c' makes a soft /s/ sound when followed by 'e', 'i', or 'y'. 'g' makes a soft /j/ sound when followed by 'e', 'i', or 'y'.", words: ["huge", "large", "gorge", "lounge", "fringe", "stage"] },
+        { title: "List 47: Soft C and Soft G", rule: "'c' makes a soft /s/ sound when followed by 'e', 'i', or 'y'. 'g' makes a soft /j/ sound when followed by 'e', 'i', or 'y'.", words: ["genius", "gender", "gigantic", "pigeon", "average", "message"] },
+        { title: "List 47: Soft C and Soft G", rule: "'c' makes a soft /s/ sound when followed by 'e', 'i', or 'y'. 'g' makes a soft /j/ sound when followed by 'e', 'i', or 'y'.", words: ["geometry", "oxygen", "vegetable", "danger", "ginger", "giraffe"] },
+        
+        { title: "List 48: Homophones", rule: "Homophones sound identical but carry completely unique spelling configurations based on contextual meaning.", words: ["flour", "flower", "war", "wore", "shore", "sure"] },
+        { title: "List 48: Homophones", rule: "Homophones sound identical but carry completely unique spelling configurations based on contextual meaning.", words: ["plain", "plane", "our", "hour", "aloud", "allowed"] },
+        { title: "List 48: Homophones", rule: "Homophones sound identical but carry completely unique spelling configurations based on contextual meaning.", words: ["pour", "pore", "poor", "cent", "scent", "sent"] },
+        { title: "List 48: Homophones", rule: "Homophones sound identical but carry completely unique spelling configurations based on contextual meaning.", words: ["ball", "bawl", "break", "brake", "worn", "warn", "flu", "flew"] },
+        
+        { title: "List 51: Triple Sound Patterns for /air/", rule: "The phoneme /air/ can be represented across three alternative structures: 'air', 'are', and 'ear'.", words: ["chair", "fair", "pair", "stair", "airfare", "hairy"] },
+        { title: "List 51: Triple Sound Patterns for /air/", rule: "The phoneme /air/ can be represented across three alternative structures: 'air', 'are', and 'ear'.", words: ["haircut", "repair", "unfair", "disrepair", "airtight", "armchair"] },
+        { title: "List 51: Triple Sound Patterns for /air/", rule: "The phoneme /air/ can be represented across three alternative structures: 'air', 'are', and 'ear'.", words: ["dare", "bare", "square", "rare", "share", "flare"] },
+        { title: "List 51: Triple Sound Patterns for /air/", rule: "The phoneme /air/ can be represented across three alternative structures: 'air', 'are', and 'ear'.", words: ["scare", "glare", "spare", "hardware", "glassware", "software"] },
+        { title: "List 51: Triple Sound Patterns for /air/", rule: "The phoneme /air/ can be represented across three alternative structures: 'air', 'are', and 'ear'.", words: ["bear", "pear", "ear", "hear", "tear", "dear", "fear"] },
+        { title: "List 51: Triple Sound Patterns for /air/", rule: "The phoneme /air/ can be represented across three alternative structures: 'air', 'are', and 'ear'.", words: ["gear", "year", "menswear", "footwear", "underwear"] },
+        
+        { title: "List 52: Morphological Y-to-I Rule", rule: "If a base word ends in a vowel + 'y', keep the 'y'. If it ends in a consonant + 'y', change 'y' to 'i' before any suffix (unless the suffix starts with 'i', like -ing).", words: ["staying", "obeyed", "enjoyed", "enjoyment", "stayed"] },
+        { title: "List 52: Morphological Y-to-I Rule", rule: "If a base word ends in a vowel + 'y', keep the 'y'. If it ends in a consonant + 'y', change 'y' to 'i' before any suffix (unless the suffix starts with 'i', like -ing).", words: ["delays", "delayed", "playing", "played", "playful"] },
+        
+        { title: "List 53: Suffixes (-tion / -sion / -cian)", rule: "Abstract noun suffixes: '-tion' and '-sion' show a state of action, while '-cian' highlights a person's trade or skill.", words: ["celebration", "pollution", "inspiration", "consideration", "imagination"] },
+        { title: "List 53: Suffixes (-tion / -sion / -cian)", rule: "Abstract noun suffixes: '-tion' and '-sion' show a state of action, while '-cian' highlights a person's trade or skill.", words: ["action", "condition", "invitation", "competition", "collision", "division"] },
+        { title: "List 53: Suffixes (-tion / -sion / -cian)", rule: "Abstract noun suffixes: '-tion' and '-sion' show a state of action, while '-cian' highlights a person's trade or skill.", words: ["confusion", "extension", "explosion", "television", "persuasion", "suspension"] },
+        { title: "List 53: Suffixes (-tion / -sion / -cian)", rule: "Abstract noun suffixes: '-tion' and '-sion' show a state of action, while '-cian' highlights a person's trade or skill.", words: ["decision", "musician", "politician", "magician", "electrician", "optician"] },
+        { title: "List 53: Suffixes (-tion / -sion / -cian)", rule: "Abstract noun suffixes: '-tion' and '-sion' show a state of action, while '-cian' highlights a person's trade or skill.", words: ["technician", "beautician", "dietician", "physician"] },
+        
+        { title: "List 54: Silent Consonants", rule: "Historical consonant combinations where one element remains silent: 'wr' -> /r/, 'kn' -> /n/, 'sc' -> /s/, 'mb' -> /m/.", words: ["wrong", "write", "wreath", "wrote", "wrist", "wreckage"] },
+        { title: "List 54: Silent Consonants", rule: "Historical consonant combinations where one element remains silent: 'wr' -> /r/, 'kn' -> /n/, 'sc' -> /s/, 'mb' -> /m/.", words: ["wrap", "wrinkle", "wriggle", "wrestler", "wrench", "wristband"] },
+        { title: "List 54: Silent Consonants", rule: "Historical consonant combinations where one element remains silent: 'wr' -> /r/, 'kn' -> /n/, 'sc' -> /s/, 'mb' -> /m/.", words: ["wrangle", "wristwatch", "knit", "knot", "know", "knew"] },
+        { title: "List 54: Silent Consonants", rule: "Historical consonant combinations where one element remains silent: 'wr' -> /r/, 'kn' -> /n/, 'sc' -> /s/, 'mb' -> /m/.", words: ["knack", "knee", "knob", "knead", "kneel", "knelt"] },
+        { title: "List 54: Silent Consonants", rule: "Historical consonant combinations where one element remains silent: 'wr' -> /r/, 'kn' -> /n/, 'sc' -> /s/, 'mb' -> /m/.", words: ["knife", "knight", "knitted", "knitting", "knapsack", "science"] },
+        { title: "List 54: Silent Consonants", rule: "Historical consonant combinations where one element remains silent: 'wr' -> /r/, 'kn' -> /n/, 'sc' -> /s/, 'mb' -> /m/.", words: ["scissors", "scent", "scene", "scenery", "scented", "climb"] },
+        { title: "List 54: Silent Consonants", rule: "Historical consonant combinations where one element remains silent: 'wr' -> /r/, 'kn' -> /n/, 'sc' -> /s/, 'mb' -> /m/.", words: ["lamb", "thumb", "comb", "crumb", "bomb", "numb"] },
+        { title: "List 54: Silent Consonants", rule: "Historical consonant combinations where one element remains silent: 'wr' -> /r/, 'kn' -> /n/, 'sc' -> /s/, 'mb' -> /m/.", words: ["limb", "tomb", "plumber"] },
+        
+        { title: "List 55: The Schwa Neutral Vowel", rule: "In the unaccented syllables of multi-syllabic words, vowels reduce to an indistinct, neutral schwa sound.", words: ["winter", "summer", "after", "never", "sister", "dinner"] },
+        { title: "List 55: The Schwa Neutral Vowel", rule: "In the unaccented syllables of multi-syllabic words, vowels reduce to an indistinct, neutral schwa sound.", words: ["falcon", "rocket", "quiet", "pollen", "magnet", "silent"] },
+        { title: "List 55: The Schwa Neutral Vowel", rule: "In the unaccented syllables of multi-syllabic words, vowels reduce to an indistinct, neutral schwa sound.", words: ["reason", "lemon", "focus", "wizard", "survive"] },
+        { title: "List 55: The Schwa Neutral Vowel", rule: "In the unaccented syllables of multi-syllabic words, vowels reduce to an indistinct, neutral schwa sound.", words: ["enemy", "problem", "offend"] },
+        
+        { title: "List 56: Pluralizing 'f' and 'fe' Words", rule: "To pluralize nouns that end with 'f' or 'fe', change the 'f' or 'fe' to a 'v' and append '-es' or '-s'.", words: ["calf", "calves", "loaf", "loaves", "half", "halves"] },
+        { title: "List 56: Pluralizing 'f' and 'fe' Words", rule: "To pluralize nouns that end with 'f' or 'fe', change the 'f' or 'fe' to a 'v' and append '-es' or '-s'.", words: ["shelf", "shelves", "leaf", "leaves", "scarf", "scarves"] },
+        { title: "List 56: Pluralizing 'f' and 'fe' Words", rule: "To pluralize nouns that end with 'f' or 'fe', change the 'f' or 'fe' to a 'v' and append '-es' or '-s'.", words: ["knife", "knives", "thief", "thieves", "wife", "wives"] },
+        { title: "List 56: Pluralizing 'f' and 'fe' Words", rule: "To pluralize nouns that end with 'f' or 'fe', change the 'f' or 'fe' to a 'v' and append '-es' or '-s'.", words: ["life", "lives", "wolf", "wolves", "elf", "elves"] }
+    ];
 
-        switch(type) {
-            case "soft_engine":
-                if(input.match(/[cg][eiy]/)) {
-                    return "✅ Soft Alignment Confirmed: The following 'e', 'i', or 'y' activates the soft rule pronunciation variant.";
-                }
-                return "Hard consonant mapping environment detected.";
+    const target = document.getElementById('workbook-container');
+    let groupCounts = {};
 
-            case "y_engine":
-                if(input.endsWith('ing') && input.match(/[aeiou]ying/)) return "Vowel + y scenario. The 'y' is retained.";
-                return "Morphological transition pattern verified.";
+    dataY56.forEach((item) => {
+        if (!groupCounts[item.title]) groupCounts[item.title] = 0;
+        groupCounts[item.title]++;
+        const currentPart = groupCounts[item.title];
 
-            case "f_engine":
-                if(input.endsWith('ves')) return "Plural mutation valid: 'f/fe' changed to 'v' + 'es'.";
-                return "Base form matches singular configuration guidelines.";
-
-            default:
-                return "Phoneme string elements successfully cross-referenced.";
-        }
-    }
-
-    const grid = document.getElementById('workbook-grid');
-    Object.keys(curriculumData).forEach(key => {
-        const item = curriculumData[key];
         const card = document.createElement('div');
-        card.className = 'card';
-        let wordsHTML = item.words.map(w => `<span class="word-tag" onclick="document.getElementById('input-${key}').value='${w}';">${w}</span>`).join('');
+        card.className = 'lesson-card';
 
-        card.innerHTML = `
-            <span class="badge">Year 5 / 6</span>
-            <h2>${item.title}</h2>
-            <div class="rule-box">${item.rule}</div>
-            <div><strong>Word Bank:</strong></div>
-            <div style="margin-bottom:1rem;">${wordsHTML}</div>
-            <div class="interactive-zone">
-                <input type="text" id="input-${key}" placeholder="Type or click a word to analyze...">
-                <button onclick="const out = document.getElementById('out-${key}'); out.innerText = executeLinguisticEngine('${key}', document.getElementById('input-${key}').value)">Run Evaluation</button>
-                <div class="output" id="out-${key}"></div>
-            </div>
-        `;
-        grid.appendChild(card);
+        const headerDiv = document.createElement('div');
+        headerDiv.className = 'lesson-header';
+        headerDiv.innerHTML = `<span class="lesson-title">${item.title}</span><span class="part-badge">Part ${currentPart}</span>`;
+        card.appendChild(headerDiv);
+
+        const ruleDiv = document.createElement('div');
+        ruleDiv.className = 'rule-instruction';
+        ruleDiv.innerHTML = `<strong>Linguistic Rule to Copy:</strong><span class="rule-text">${item.rule}</span>`;
+        card.appendChild(ruleDiv);
+
+        const grid = document.createElement('div');
+        grid.className = 'word-grid';
+
+        item.words.forEach(word => {
+            const wDiv = document.createElement('div');
+            wDiv.className = 'word-item';
+            wDiv.innerText = word;
+            wDiv.onclick = () => {
+                wDiv.classList.toggle('completed');
+                if (wDiv.classList.contains('completed')) {
+                    if (!wDiv.querySelector('.check-mark')) {
+                        const check = document.createElement('span');
+                        check.className = 'check-mark';
+                        check.innerText = '✓ Completed';
+                        wDiv.appendChild(check);
+                    }
+                } else {
+                    const check = wDiv.querySelector('.check-mark');
+                    if (check) check.remove();
+                }
+            };
+            grid.appendChild(wDiv);
+        });
+
+        card.appendChild(grid);
+        target.appendChild(card);
     });
 </script>
 </body>
