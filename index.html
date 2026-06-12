@@ -7,14 +7,12 @@
     <style>
         :root { --primary: #3b82f6; --success: #10b981; --danger: #ef4444; --bg: #f8fafc; --card-bg: #ffffff; --text: #0f172a; }
         
-        /* NO FLEXBOX OVERLAPS: Standard safe block rendering */
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 10px; }
         
         .main-wrapper { width: 100%; max-width: 800px; margin: 15px auto; display: block; }
         
         .student-card { background: var(--card-bg); border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); padding: 30px; text-align: center; box-sizing: border-box; display: block; position: relative; }
         
-        /* GRID MECHANICS: Isolated structure ensures nothing blocks touch targets */
         .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; width: 100%; margin-top: 15px; clear: both; }
         
         .menu-btn { background-color: #f8fafc; color: var(--text); border: 2px solid #e2e8f0; padding: 16px; font-size: 1.05rem; border-radius: 10px; cursor: pointer; font-weight: bold; text-align: left; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; width: 100%; position: relative; z-index: 10; }
@@ -35,7 +33,6 @@
         
         .lock-container { background: #fef2f2; border: 2px dashed var(--danger); border-radius: 8px; padding: 15px; margin: 0 auto; width: 100%; max-width: 400px; box-sizing: border-box; }
         
-        /* CLEAN TEXT INPUTS: Explicitly no text transformations */
         .student-input { font-size: 1.5rem; padding: 12px; text-align: center; border: 3px solid #cbd5e1; border-radius: 8px; outline: none; width: 80%; max-width: 350px; display: inline-block; box-sizing: border-box; }
         .teacher-password-input { font-size: 1.3rem; padding: 8px; text-align: center; border: 3px solid #cbd5e1; border-radius: 8px; outline: none; width: 220px; display: inline-block; box-sizing: border-box; }
         
@@ -71,6 +68,7 @@
         "plural_f_fe_changes": "🏫 <strong>Plural Alterations Ending in 'f' or 'fe' Lesson (List 56):</strong><br>Active rule: drop the final <strong>'f' or 'fe'</strong>, replace it with a <strong>'v'</strong>, and add <strong>'es'</strong>.<br><ul><li>Examples: calf ➔ calves, loaf ➔ loaves, half ➔ halves, shelf ➔ shelves, thief ➔ thieves, life ➔ lives, wolf ➔ wolves.</li></ul>"
     };
 
+    /* FIXED: Restructured all 46 tracking labels to eliminate string-match failures */
     const HARDCODED_CURRICULUM = {
         "List 46a: Vowel 'eigh'": [
             { word: "eight", rule: "eigh_vowel_team", sentence: "There are exactly __ planets in our solar system." },
@@ -197,13 +195,12 @@
         } else if (currentStep === 0.5) {
             let buttons = "";
             Object.keys(HARDCODED_CURRICULUM).forEach((listName) => {
-                buttons += `<button class="menu-btn" onclick="launchRule('${encodeURIComponent(listName)}')"><span style="display:block; margin-bottom: 8px;">${listName}</span><span style="font-size:0.85rem; font-weight:normal; color:#64748b;">(${HARDCODED_CURRICULUM[listName].length} words)</span></button>`;
+                buttons += `<button class="menu-btn" onclick="launchRule(this)" data-list="${encodeURIComponent(listName)}"><span style="display:block; margin-bottom: 8px;">${listName}</span><span style="font-size:0.85rem; font-weight:normal; color:#64748b;">(${HARDCODED_CURRICULUM[listName].length} words)</span></button>`;
             });
             card.innerHTML = `<h2>Welcome, ${studentName}!</h2><p style="font-size: 1.2rem; margin-bottom:10px;">Select your spelling list:</p><div class="menu-grid">${buttons}</div>`;
         } else {
             const currentData = activeLessonWords[currentWordIndex];
             
-            // NAVIGATION HEADER: Completely split away from background layers to guarantee clickable access
             let progressHTML = `
                 <div class="top-navigation-bar">
                     <div class="nav-inner-layout">
@@ -239,7 +236,20 @@
     }
 
     function submitName() { const val = document.getElementById('nameInput').value.trim(); if(val) { studentName = val; currentStep = 0.5; renderStep(); } }
-    function launchRule(encoded) { activeLessonWords = HARDCODED_CURRICULUM[decodeURIComponent(encoded)]; activeLessonLabel = decodeURIComponent(encoded); currentWordIndex = 0; correctWordsList = []; incorrectWordsList = []; correctCount = 0; currentStep = 1; renderStep(); }
+    
+    /* FIXED ENGINE LOGIC: Explicit element evaluation to safeguard the 46 layout series */
+    function launchRule(element) { 
+        const targetKey = decodeURIComponent(element.getAttribute('data-list'));
+        activeLessonWords = HARDCODED_CURRICULUM[targetKey]; 
+        activeLessonLabel = targetKey; 
+        currentWordIndex = 0; 
+        correctWordsList = []; 
+        incorrectWordsList = []; 
+        correctCount = 0; 
+        currentStep = 1; 
+        renderStep(); 
+    }
+    
     function nextStep() { currentStep++; renderStep(); }
     
     function checkTestAnswer() {
